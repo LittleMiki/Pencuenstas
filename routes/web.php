@@ -11,6 +11,12 @@
 |
 */
 
+//
 Route::get('/', function () {
-    return view('welcome');
+   return view('index');
 });
+//Route::get('/','ControaldorMiguel@indice');
+//rutas miguel angel
+Route::post('validar','ControladorMiguel@validarUsuario');
+Route::post('miJqueryAjax','ControladorMiguel@Ajax');
+//rutas bea
