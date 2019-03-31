@@ -26,6 +26,6 @@ class ControladorMiguel extends Controller
        $query="SELECT `Descripcion` FROM `modulo` ";
        $fechas=\DB::select($query);
        
-        echo json_encode($fechas[0]);
+        echo json_encode($fechas);
     }
 }
