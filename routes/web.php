@@ -20,3 +20,4 @@ Route::get('/', function () {
 Route::post('validar','ControladorMiguel@validarUsuario');
 Route::post('miJqueryAjax','ControladorMiguel@Ajax');
 //rutas bea
+Route::post('mostrarEncuesta','ControladorBea@Ajax');
