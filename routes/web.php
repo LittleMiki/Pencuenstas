@@ -23,3 +23,4 @@ Route::post('volver','ControladorMiguel@accionUsuario');
 Route::post('miJqueryAjax','ControladorMiguel@Ajax');
 //rutas bea
 Route::post('mostrarEncuesta','ControladorBea@Ajax');
+Route::post('respuestas','ControladorBea@guardarEncuesta');
