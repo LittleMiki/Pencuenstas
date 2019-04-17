@@ -10,24 +10,52 @@ class ControladorMiguel extends Controller {
     function validarUsuario(Request $req) {
 
         $vista = 'index';
-
-        $query = "SELECT * FROM `alumno` WHERE `usuario` = '" . $req->get('usuario') . "'";
+        $tabla = '`alumno`';
+        $query = "SELECT * FROM `profesor` WHERE `usuario` = '" . $req->get('usuario') . "'";
         $resultado = \DB::select($query);
-        //dd($resultado[0]->usuario);
+        
+        if (!empty($resultado)) {
+            $tabla = '`profesor`';
+        }
+        //dd($tabla);
+        $query = "SELECT * FROM " . $tabla . " WHERE `usuario` = '" . $req->get('usuario') . "'";
+        $resultado = \DB::select($query);
+        
+
+        
         if ($resultado[0]->usuario == $req->get('usuario')) {
             if ($resultado[0]->pass == $req->get('pass')) {
                 \Session::put('usuario', $req->get('usuario'));
-                $query = "SELECT curso.descripcion,curso.grupo,curso.curso FROM modulo,modulocurso,curso,alumnomodulo WHERE modulo.id=modulocurso.IdModulo and curso.id = modulocurso.IdCurso and alumnomodulo.IdModulo=modulocurso.IdModulo and alumnomodulo.alumno= '" . $req->get('usuario') . "'";
-                $resultado = \DB::select($query);
-                $curso = $resultado[0]->curso . ' - ' . $resultado[0]->descripcion;
-                $grupo = $resultado[0]->grupo;
+               
+                if ($tabla == '`alumno`') {
+                    //dd("alumno");
+                    $query = "SELECT curso.descripcion,curso.grupo,curso.curso FROM modulo,modulocurso,curso,alumnomodulo WHERE modulo.id=modulocurso.IdModulo and curso.id = modulocurso.IdCurso and alumnomodulo.IdModulo=modulocurso.IdModulo and alumnomodulo.alumno= '" . $req->get('usuario') . "'";
+                    $resultado = \DB::select($query);
+                    
+                    $curso = $resultado[0]->curso . ' - ' . $resultado[0]->descripcion;
+                    $grupo = $resultado[0]->grupo;
+
+                    $datos = ['alumno' => $req->get('usuario'),
+                        'curso' => $curso,
+                        'grupo' => $grupo,
+                        'tipo' => 'alumno',
+                    ];
+                    $vista = 'Eleccion';
+                   return view($vista, $datos);
+                } 
+                if($tabla == '`profesor`'){
+                    
+                    $query ="SELECT * FROM `profesor` WHERE `usuario` = '" . $req->get('usuario') . "'";
+                    $resultado = \DB::select($query);
+                    
+                    $datos = ['usuario' => $req->get('usuario'),
+                        'nombre' => $resultado[0]->nombre,
+                        'tipo' => 'profesor',
+                    ];
+                    $vista = 'Eleccion';
+                    return view($vista, $datos);
+                }
                 
-                $datos = ['alumno' => $req->get('usuario'),
-                    'curso' => $curso,
-                    'grupo' => $grupo,
-                ];
-                $vista = 'Eleccion';
-                return view($vista,$datos);
             }
         }
         return view($vista);
@@ -40,21 +68,22 @@ class ControladorMiguel extends Controller {
 
         echo json_encode($fechas);
     }
+    
 
     function accionUsuario(Request $req) {
         $vista;
         if ($req->get('boton') == 'aceptar') {
-             $query = "SELECT curso.grupo,curso.curso FROM modulo,modulocurso,curso,alumnomodulo WHERE modulo.id=modulocurso.IdModulo and curso.id = modulocurso.IdCurso and alumnomodulo.IdModulo=modulocurso.IdModulo and alumnomodulo.alumno= '" .  \Session::get('usuario') . "'";
-                $resultado = \DB::select($query);
-                $curso = $resultado[0]->curso;
-                $grupo = $resultado[0]->grupo;
-                
-                $datos = [
-                    'curso' => $curso,
-                    'grupo' => $grupo,
-                ];
+            $query = "SELECT curso.grupo,curso.curso FROM modulo,modulocurso,curso,alumnomodulo WHERE modulo.id=modulocurso.IdModulo and curso.id = modulocurso.IdCurso and alumnomodulo.IdModulo=modulocurso.IdModulo and alumnomodulo.alumno= '" . \Session::get('usuario') . "'";
+            $resultado = \DB::select($query);
+            $curso = $resultado[0]->curso;
+            $grupo = $resultado[0]->grupo;
+
+            $datos = [
+                'curso' => $curso,
+                'grupo' => $grupo,
+            ];
             $vista = 'validado';
-            return view($vista,$datos);
+            return view($vista, $datos);
         } else {
             $vista = 'index';
         }
@@ -63,4 +92,7 @@ class ControladorMiguel extends Controller {
         return view($vista);
     }
 
+    function Gusuarios(Request $req){
+        
+    }
 }
