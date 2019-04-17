@@ -21,6 +21,7 @@ Route::post('validar','ControladorMiguel@validarUsuario');
 Route::post('Hencuesta','ControladorMiguel@accionUsuario');
 Route::post('volver','ControladorMiguel@accionUsuario');
 Route::post('miJqueryAjax','ControladorMiguel@Ajax');
+Route::post('Gusuariosr','ControladorMiguel@Gusuarios');
 //rutas bea
 Route::post('mostrarEncuesta','ControladorBea@Ajax');
 Route::post('respuestas','ControladorBea@guardarEncuesta');
