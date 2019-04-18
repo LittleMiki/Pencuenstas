@@ -72,7 +72,7 @@ class ControladorMiguel extends Controller {
 
     function accionUsuario(Request $req) {
         $vista;
-        if ($req->get('boton') == 'aceptar') {
+        if ($req->get('boton') === 'Realizar Encuesta') {
             $query = "SELECT curso.grupo,curso.curso FROM modulo,modulocurso,curso,alumnomodulo WHERE modulo.id=modulocurso.IdModulo and curso.id = modulocurso.IdCurso and alumnomodulo.IdModulo=modulocurso.IdModulo and alumnomodulo.alumno= '" . \Session::get('usuario') . "'";
             $resultado = \DB::select($query);
             $curso = $resultado[0]->curso;

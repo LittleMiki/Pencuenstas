@@ -1,3 +1,4 @@
+<!--Autor: Miguel Angel-->
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
