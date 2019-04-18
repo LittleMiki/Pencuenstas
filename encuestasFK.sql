@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-04-2019 a las 14:42:53
+-- Tiempo de generación: 18-04-2019 a las 15:54:15
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.12
 
@@ -74,6 +74,18 @@ CREATE TABLE `alumnomodulorespuesta` (
   `IdRespuesta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `alumnomodulorespuesta`
+--
+
+INSERT INTO `alumnomodulorespuesta` (`id`, `IdAlumno`, `IdModulo`, `IdRespuesta`) VALUES
+(1, 'daw222', 'DIW', 1),
+(2, 'daw222', 'DIW', 2),
+(3, 'daw222', 'DIW', 3),
+(4, 'daw222', 'DWEC', 4),
+(5, 'daw222', 'DWEC', 5),
+(6, 'daw222', 'DWEC', 6);
+
 -- --------------------------------------------------------
 
 --
@@ -84,15 +96,16 @@ CREATE TABLE `curso` (
   `id` varchar(10) NOT NULL,
   `descripcion` varchar(30) NOT NULL,
   `curso` int(11) NOT NULL,
-  `grupo` varchar(20) NOT NULL
+  `grupo` varchar(20) NOT NULL,
+  `tutor` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `curso`
 --
 
-INSERT INTO `curso` (`id`, `descripcion`, `curso`, `grupo`) VALUES
-('DAW2', 'Desarrollo de aplicaciones web', 2, 'GS DAW');
+INSERT INTO `curso` (`id`, `descripcion`, `curso`, `grupo`, `tutor`) VALUES
+('DAW2', 'Desarrollo de aplicaciones web', 2, 'GS DAW', 'diego');
 
 -- --------------------------------------------------------
 
@@ -152,9 +165,9 @@ CREATE TABLE `pregunta` (
 --
 
 INSERT INTO `pregunta` (`id`, `orden`, `pregunta`) VALUES
-(1, 1, '¿Te ha resultado interesante el curso?'),
-(2, 2, '¿El profesor te ha motivado?'),
-(3, 3, '¿Ha sido bueno el ambiente en clase?');
+(1, 2, '¿Te ha resultado interesante el curso?'),
+(2, 1, '¿El profesor te ha motivado?'),
+(4, 3, '¿Ha sido bueno el ambiente en clase?');
 
 -- --------------------------------------------------------
 
@@ -215,9 +228,12 @@ CREATE TABLE `respuesta` (
 --
 
 INSERT INTO `respuesta` (`id`, `IdPregunta`, `valor`) VALUES
-(1, 1, '5'),
-(2, 2, '4'),
-(3, 3, '5');
+(1, 2, '3'),
+(2, 1, '4'),
+(3, 4, '3'),
+(4, 2, '3'),
+(5, 1, '4'),
+(6, 4, '2');
 
 --
 -- Índices para tablas volcadas
@@ -250,7 +266,8 @@ ALTER TABLE `alumnomodulorespuesta`
 -- Indices de la tabla `curso`
 --
 ALTER TABLE `curso`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tutor` (`tutor`);
 
 --
 -- Indices de la tabla `modulo`
@@ -307,7 +324,7 @@ ALTER TABLE `alumnomodulo`
 -- AUTO_INCREMENT de la tabla `alumnomodulorespuesta`
 --
 ALTER TABLE `alumnomodulorespuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `modulocurso`
@@ -331,7 +348,7 @@ ALTER TABLE `profesormodulo`
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
@@ -351,6 +368,12 @@ ALTER TABLE `alumnomodulorespuesta`
   ADD CONSTRAINT `alumnomodulorespuesta_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `alumno` (`usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `alumnomodulorespuesta_ibfk_2` FOREIGN KEY (`IdModulo`) REFERENCES `modulo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `alumnomodulorespuesta_ibfk_3` FOREIGN KEY (`IdRespuesta`) REFERENCES `respuesta` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `curso`
+--
+ALTER TABLE `curso`
+  ADD CONSTRAINT `curso_ibfk_1` FOREIGN KEY (`tutor`) REFERENCES `profesor` (`usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `modulocurso`

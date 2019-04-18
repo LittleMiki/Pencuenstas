@@ -56,7 +56,7 @@ class ControladorBea extends Controller {
             }
         }
         
-        return view('validado');
+        return view('encuestaAlmacenada');
     }
 
 }

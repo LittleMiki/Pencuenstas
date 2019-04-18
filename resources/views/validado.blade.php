@@ -11,7 +11,7 @@
         crossorigin="anonymous"></script>
         <script type = "text/javascript">
 
-//Miguel//
+//Autor: Miguel Angel//
             $(function () {
 
                 $().ready(function () {
@@ -48,9 +48,11 @@
                         }
                     });
                 }).keyup();
-                ////////////////////////////////////////////////////////////////
-                //
-                //Bea//
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+                //Autor: Beatriz//
                 $("#materias").change(function () {
                     var modulo = $("#materias").val();
                     $.ajax({
@@ -80,27 +82,11 @@
 
                             }
                             $("#formulario div").append("<input type='submit' name='enviar' value='Enviar'>");
-
-//                                $(".preguntas").append("<div><form name='form' action='encuesta' method='POST'>\n\
-//                                                <input id='p" + p + "' type='text' size='40' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
-//                                                <label for='r1'>1</label>\n\
-//                                                <input type='radio' name='num' value='1'>\n\
-//                                                <label for='r2'>2</label>\n\
-//                                                <input type='radio' name='num' value='2'>\n\
-//                                                <label for='r3'>3</label>\n\
-//                                                <input type='radio' name='num' value='3'>\n\
-//                                                <label for='r4'>4</label>\n\
-//                                                <input type='radio' name='num' value='4'>\n\
-//                                                <label for='r5'>5</label>\n\
-//                                                <input type='radio' name='num' value='5'>\n\
-//                                                <br></form></div>");
-//
-//                            }
                         }
                     }
                     );
                 });
-                ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
             });
 
