@@ -1,3 +1,4 @@
+<!--Autor: Miguel Angel-->
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
@@ -17,7 +18,7 @@
             <form name="form" action="validar" method="POST">
                 {!! csrf_field(); !!}
                 <label> Usuario </label> <input type="text" name="usuario" value="" placeholder="Usuario"></br>
-                <label> Contrasenia </label> <input type="password" name="pass" value="" placeholder="Pass"></br>
+                <label> Contraseña </label> <input type="password" name="pass" value="" placeholder="Pass"></br>
                 <input type="submit" name="aceptar" value="aceptar">
             </form>
         </div>
