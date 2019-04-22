@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-       
+
 
     </head>
     <body>
@@ -15,13 +15,21 @@
         </div>
         <div id="main" style="text-align: center">
             <table>
-                 <?php
-                    echo $usus;
+                <tr>
+
+                    <th>Usuario</th>
+
+                    <th>Pass</th>
+
+
+                </tr>
+                <?php
+                echo $usus;
                 ?>
             </table>
             <form name="form" action="volver" method="POST">
-                    {!! csrf_field(); !!}
-                    <input type="submit" name="boton" value="volver">
+                {!! csrf_field(); !!}
+                <input type="submit" name="boton" value="volver">
             </form>
         </div>
         <div id="footer">
