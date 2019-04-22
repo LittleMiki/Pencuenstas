@@ -21,7 +21,7 @@
                         //data: {"compuesto" :$(this).val() },
                         success: function (response) {
                             // alert(response);
-                            var txt = '<option></option>';
+                            var txt = '';
                             var datos = JSON.parse(response);
                             for (x in datos) {
                                 txt = txt + '<option>' + datos[x].Descripcion + '</option>';
@@ -79,6 +79,8 @@
 
             </div>
             <div id="main">
+                <form name="form" action="ACprofesor" method="POST">
+                    {!! csrf_field(); !!}
                 <table style="border: double 2px black;margin-bottom: 10px" >
                   
                     <tr><th>Profesor</th> <td>  <?php echo $nombre ?></td></tr>
@@ -89,26 +91,13 @@
                    
                     
                 </table>
-                <form name="form" action="Rprofesor" method="POST">
-                    {!! csrf_field(); !!}
-                    <input type="submit" name="boton" value="Resumen profesor">
-                </form>
-                <form name="form" action="Rtutor" method="POST">
-                    {!! csrf_field(); !!}
-                    <input type="submit" name="boton" value="Resumen Tutor">
+               
                     
-                </form>
-                <form name="form" action="Vencuestasr" method="POST">
-                    {!! csrf_field(); !!}
-                    <input type="submit" name="boton" value="Ver encuestas">
-                </form>
-                <form name="form" action="Gusuariosr" method="POST">
-                    {!! csrf_field(); !!}
-                    <input type="submit" name="boton" value="Generar Usuarios">
-                </form>
-                <form name="form" action="volver" method="POST">
-                    {!! csrf_field(); !!}
-                    <input type="submit" name="boton" value="volver">
+                    <input type="submit" name="boton" value="Resumen profesor"></br>
+                    <input type="submit" name="boton" value="Resumen Tutor"></br>
+                    <input type="submit" name="boton" value="Ver encuestas"></br>
+                    <input type="submit" name="boton" value="Generar Usuarios"></br>
+                    <input type="submit" name="boton" value="volver"></br>
                 </form>
             </div>
             <div id="footer">

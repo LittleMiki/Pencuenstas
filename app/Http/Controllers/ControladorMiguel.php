@@ -93,6 +93,26 @@ class ControladorMiguel extends Controller {
     }
 
     function Gusuarios(Request $req){
-        
+       
+        if(!empty($req->get('mat')) ){
+            
+            $query="SELECT `id` FROM `modulo` WHERE `descripcion` = '".$req->get('mat')."'";
+            $resultado = \DB::select($query);
+            $modulo = $resultado[0]->id;
+            $query = "SELECT COUNT(*) as cantidad FROM alumnomodulo WHERE `IdModulo` = '".$modulo."'";
+            $resultado = \DB::select($query);
+            //dd($resultado);
+            $cantidad =(int) $resultado[0]->cantidad;
+            $usus="";
+            for ($i=0;$i<$cantidad;$i++){
+                $up="20".$i.$modulo;
+                $usus = $usus."<tr><td>".$up."</td><td>".$up."</td></tr>";
+            }
+            
+            $devolver = [
+                'usus' => $usus,
+            ];
+            return view("Gusuarios",$devolver);
+        }
     }
 }
