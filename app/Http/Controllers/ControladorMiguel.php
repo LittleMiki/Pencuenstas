@@ -14,25 +14,25 @@ class ControladorMiguel extends Controller {
         $tabla = '`alumno`';
         $query = "SELECT * FROM `profesor` WHERE `usuario` = '" . $req->get('usuario') . "'";
         $resultado = \DB::select($query);
-        
+
         if (!empty($resultado)) {
             $tabla = '`profesor`';
         }
         //dd($tabla);
         $query = "SELECT * FROM " . $tabla . " WHERE `usuario` = '" . $req->get('usuario') . "'";
         $resultado = \DB::select($query);
-        
 
-        
+
+
         if ($resultado[0]->usuario == $req->get('usuario')) {
             if ($resultado[0]->pass == $req->get('pass')) {
                 \Session::put('usuario', $req->get('usuario'));
-               
+
                 if ($tabla == '`alumno`') {
                     //dd("alumno");
                     $query = "SELECT curso.descripcion,curso.grupo,curso.curso FROM modulo,modulocurso,curso,alumnomodulo WHERE modulo.id=modulocurso.IdModulo and curso.id = modulocurso.IdCurso and alumnomodulo.IdModulo=modulocurso.IdModulo and alumnomodulo.alumno= '" . $req->get('usuario') . "'";
                     $resultado = \DB::select($query);
-                    
+
                     $curso = $resultado[0]->curso . ' - ' . $resultado[0]->descripcion;
                     $grupo = $resultado[0]->grupo;
 
@@ -42,21 +42,35 @@ class ControladorMiguel extends Controller {
                         'tipo' => 'alumno',
                     ];
                     $vista = 'Eleccion';
-                   return view($vista, $datos);
-                } 
-                if($tabla == '`profesor`'){
-                    
-                    $query ="SELECT * FROM `profesor` WHERE `usuario` = '" . $req->get('usuario') . "'";
+                    return view($vista, $datos);
+                }
+                if ($tabla == '`profesor`') {
+
+                    $query = "SELECT * FROM `profesor` WHERE `usuario` = '" . $req->get('usuario') . "'";
                     $resultado = \DB::select($query);
-                    
-                    $datos = ['usuario' => $req->get('usuario'),
-                        'nombre' => $resultado[0]->nombre,
-                        'tipo' => 'profesor',
-                    ];
+
+                    $nombre = $resultado[0]->nombre;
+                    $query = "SELECT * FROM `curso` where `tutor` ='" . $req->get('usuario') . "'";
+                    $resultado = \DB::select($query);
+
+                    $datos;
+
+                    if (!empty($resultado)) {
+                        $datos = ['usuario' => $req->get('usuario'),
+                            'nombre' => $nombre,
+                            'tipo' => 'profesor',
+                            'tutor' => true,
+                        ];
+                    } else {
+                        $datos = ['usuario' => $req->get('usuario'),
+                            'nombre' => $nombre,
+                            'tipo' => 'profesor',
+                            'tutor' => false,
+                        ];
+                    }
                     $vista = 'Eleccion';
                     return view($vista, $datos);
                 }
-                
             }
         }
         return view($vista);
@@ -69,7 +83,6 @@ class ControladorMiguel extends Controller {
 
         echo json_encode($fechas);
     }
-    
 
     function accionUsuario(Request $req) {
         $vista;
@@ -93,41 +106,49 @@ class ControladorMiguel extends Controller {
         return view($vista);
     }
 
-    function Gusuarios(Request $req){
-       
-        if(!empty($req->get('mat')) ){
-            
-            $query="SELECT `id` FROM `modulo` WHERE `descripcion` = '".$req->get('mat')."'";
-            $resultado = \DB::select($query);
-            $modulo = $resultado[0]->id;
-            $query = "SELECT COUNT(*) as cantidad FROM alumnomodulo WHERE `IdModulo` = '".$modulo."'";
-            $resultado = \DB::select($query);
-            //dd($resultado);
-            $cantidad =(int) $resultado[0]->cantidad;
-            $usus="Usuario------Contrasenia </br>";
-            for ($i=0;$i<$cantidad;$i++){
-                $up=$req->get('curso')."0".$i.$modulo;
-                $query = "INSERT INTO `alumno`(`usuario`, `pass`) VALUES ('".$up."','".$up."')";
-                \DB::select($query);
-                $query="INSERT INTO `alumnomodulo`(`id`, `alumno`, `IdModulo`) VALUES (null,'".$up."','".$modulo."')";
-                \DB::select($query);
-                $usus = $usus." ".$up."----".$up." </br> ";
-            }
-            
-            $devolver = [
-                'usus' => $usus,
-            ];
-            \Session::put('usus', $usus);
-            return view("Gusuarios",$devolver);
-        }
+    function Gusuarios(Request $req) {
+
+        if ($req->get('boton') == 'volver') {
+            return view('index');
+        } 
         
+        if($req->get('boton') == 'Generar Usuarios') {
+
+
+            if (!empty($req->get('mat'))) {
+
+                $query = "SELECT `id` FROM `modulo` WHERE `descripcion` = '" . $req->get('mat') . "'";
+                $resultado = \DB::select($query);
+                $modulo = $resultado[0]->id;
+                $query = "SELECT COUNT(*) as cantidad FROM alumnomodulo WHERE `IdModulo` = '" . $modulo . "'";
+                $resultado = \DB::select($query);
+                //dd($resultado);
+                $cantidad = (int) $resultado[0]->cantidad;
+                $usus = "Usuario------Contrasenia </br>";
+                for ($i = 0; $i < 20; $i++) {
+                    $up = $req->get('curso') . "0" . $i . $modulo;
+                    $query = "INSERT INTO `alumno`(`usuario`, `pass`) VALUES ('" . $up . "','" . $up . "')";
+                    \DB::select($query);
+                    $query = "INSERT INTO `alumnomodulo`(`id`, `alumno`, `IdModulo`) VALUES (null,'" . $up . "','" . $modulo . "')";
+                    \DB::select($query);
+                    $usus = $usus . " " . $up . "----" . $up . " </br> ";
+                }
+
+                $devolver = [
+                    'usus' => $usus,
+                ];
+                \Session::put('usus', $usus);
+                return view("Gusuarios", $devolver);
+            }
+        }
     }
-    
-    function descargarUsuarios(){
-       $usus = \Session::get('usus');
-       $usus=str_replace(" </br> ", " \r\n ", $usus);
-      
-       \App\Modelo\Bitacora::guardarArchivo($usus);
-       return response()->download('Usuarios.txt');
+
+    function descargarUsuarios() {
+        $usus = \Session::get('usus');
+        $usus = str_replace(" </br> ", " \r\n ", $usus);
+
+        \App\Modelo\Bitacora::guardarArchivo($usus);
+        return response()->download('Usuarios.txt');
     }
+
 }

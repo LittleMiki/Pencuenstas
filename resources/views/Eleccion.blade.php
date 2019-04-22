@@ -94,8 +94,12 @@
                
                     
                     <input type="submit" name="boton" value="Resumen profesor"></br>
-                    <input type="submit" name="boton" value="Resumen Tutor"></br>
                     <input type="submit" name="boton" value="Ver encuestas"></br>
+                    <?php
+                        if($tutor){
+                            echo '<input type="submit" name="boton" value="Resumen Tutor"></br>';
+                        }
+                    ?> 
                     <input type="submit" name="boton" value="Generar Usuarios"></br>
                     <input type="submit" name="boton" value="volver"></br>
                 </form>
