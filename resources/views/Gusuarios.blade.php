@@ -24,7 +24,7 @@
                 {!! csrf_field(); !!}
                 <input type="submit" name="boton" value="Descargar">
             </form>
-            <form name="form" action="volver" method="POST">
+            <form name="form" action="ACprofesor" method="POST">
                 {!! csrf_field(); !!}
                 <input type="submit" name="boton" value="volver">
             </form>
