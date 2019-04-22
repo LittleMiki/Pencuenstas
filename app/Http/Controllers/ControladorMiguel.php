@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Modelo\Clase;
 
 class ControladorMiguel extends Controller {
 
@@ -103,16 +104,30 @@ class ControladorMiguel extends Controller {
             $resultado = \DB::select($query);
             //dd($resultado);
             $cantidad =(int) $resultado[0]->cantidad;
-            $usus="";
+            $usus="Usuario------Contrasenia </br>";
             for ($i=0;$i<$cantidad;$i++){
-                $up="20".$i.$modulo;
-                $usus = $usus."<tr><td>".$up."</td><td>".$up."</td></tr>";
+                $up=$req->get('curso')."0".$i.$modulo;
+                $query = "INSERT INTO `alumno`(`usuario`, `pass`) VALUES ('".$up."','".$up."')";
+                \DB::select($query);
+                $query="INSERT INTO `alumnomodulo`(`id`, `alumno`, `IdModulo`) VALUES (null,'".$up."','".$modulo."')";
+                \DB::select($query);
+                $usus = $usus." ".$up."----".$up." </br> ";
             }
             
             $devolver = [
                 'usus' => $usus,
             ];
+            \Session::put('usus', $usus);
             return view("Gusuarios",$devolver);
         }
+        
+    }
+    
+    function descargarUsuarios(){
+       $usus = \Session::get('usus');
+       $usus=str_replace(" </br> ", " \r\n ", $usus);
+      
+       \App\Modelo\Bitacora::guardarArchivo($usus);
+       return response()->download('Usuarios.txt');
     }
 }

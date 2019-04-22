@@ -14,19 +14,16 @@
 
         </div>
         <div id="main" style="text-align: center">
-            <table>
-                <tr>
 
-                    <th>Usuario</th>
-
-                    <th>Pass</th>
-
-
-                </tr>
                 <?php
                 echo $usus;
                 ?>
             </table>
+            
+            <form name="form" action="Descargar" method="POST">
+                {!! csrf_field(); !!}
+                <input type="submit" name="boton" value="Descargar">
+            </form>
             <form name="form" action="volver" method="POST">
                 {!! csrf_field(); !!}
                 <input type="submit" name="boton" value="volver">
