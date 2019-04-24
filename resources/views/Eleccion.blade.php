@@ -49,120 +49,120 @@ $(function () {
 
     </head>
     <body class='content-fluid'>
-        
-            <?php
-            if ($tipo == 'alumno') {
-                ?>
-                <div id="cabecera" class="col-12">
 
-                </div>
-                <div id="main" class='row text-center'>
-                    <div  class="col-4">
-
-                    </div>
-                    <div class="col-4">
-                        <div class="row">
-                            <table class="table col-12" >
-                                <?php
-                                echo ('<tr><th>Alumno</th> <td>' . $alumno . '</td></tr>');
-                                echo ('<tr><th>Curso</th> <td>' . $curso . '</td></tr>');
-                                echo ('<tr><th>Grupo</th> <td>' . $grupo . '</td></tr>');
-                                ?>
-                            </table>
-                        </div>    
-                        <form name="form" action="Hencuesta" method="POST">
-
-                            {!! csrf_field(); !!} 
-                            <div class="form-group row">
-                                <input type="submit" class="btn btn-success" name="boton" value="Realizar Encuesta">
-                            </div>
-                        </form>
-                        <form name="form" action="volver" method="POST">
-                            {!! csrf_field(); !!}
-                            <div class="form-group row">
-                                <input type="submit" class="btn btn-success" name="boton" value="volver">
-                            </div>
-                        </form>
-                    </div>
-                    <div  class="col-4">
-
-                    </div>
-                </div>
-                <div id="footer" class="col-12">
-
-                </div>
-                <?php
-            } else {
-                ?>
-                <div id="cabecera" class="col-12">
-
-                </div>
-                <div id="main" class='row  '>
-                    <div class="col-4">
-
-                    </div>
-                    <div class="col-4 center m-2 " >
-
-                        <form name="form" action="ACprofesor"  method="POST">
-                            {!! csrf_field(); !!}
-                            <div class=" row">
-                                <div class="col-12">
-                                    <table class="table p-2" style="background-color: #c4cccf" >
-
-                                        <tr>
-                                            <th>Profesor</th>
-                                            <td>  <?php echo $nombre ?></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Curso</th> 
-                                            <td>
-                                                <select name="curso"><option>1</option><option>2</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>Materia</th>
-                                            <td>
-                                                <select name="mat" id="materias">
-                                                </select>
-                                            </td>
-                                        </tr>
-
-                                    </table>
-                                </div>
-                            </div>
-                            <div class='row mt-1'>
-                                <input type="submit" name="boton" class='btn btn-success  col-12' value="Resumen profesor"></br>
-                            </div>
-                            <div class='row mt-1'>
-                                <input type="submit" name="boton" class='btn btn-success col-12' value="Ver encuestas"></br>
-                            </div>
-                            <?php
-                            if ($tutor) {
-                                echo '<div class="row mt-1"> <input type="submit" name="boton" class="btn btn-success" value="Resumen Tutor"></br> </div>';
-                            }
-                            ?> 
-                            <div class='row mt-1 '>
-                                <input type="submit" name="boton" class='btn btn-success col-12' value="Generar Usuarios"></br>
-                            </div>
-                            <div class='row mt-1'>
-                                <input type="submit" name="boton" class='btn btn-success col-12' value="volver"></br>
-                            </div>
-
-                        </form>
-                    </div>
-                    <div class="col-4">
-
-                    </div>
-                </div>
-
-                <div id="footer" class="col-12">
-
-                </div>
-
-                <?php
-            }
+        <?php
+        if ($tipo == 'alumno') {
             ?>
-        
+            <div id="cabecera" class="col-12">
+
+            </div>
+            <div id="main" class='row text-center'>
+                <div  class="col-4">
+
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <table class="table col-12 " style="background-color: #c4cccf" >
+                            <?php
+                            echo ('<tr><th>Alumno</th> <td>' . $alumno . '</td></tr>');
+                            echo ('<tr><th>Curso</th> <td>' . $curso . '</td></tr>');
+                            echo ('<tr><th>Grupo</th> <td>' . $grupo . '</td></tr>');
+                            ?>
+                        </table>
+                    </div>    
+                    <form name="form" action="Hencuesta" method="POST">
+
+                        {!! csrf_field(); !!} 
+                        <div class="form-group row">
+                            <input type="submit" class="btn btn-success col-12" name="boton" value="Realizar Encuesta">
+                        </div>
+                    </form>
+                    <form name="form" action="volver" method="POST">
+                        {!! csrf_field(); !!}
+                        <div class="form-group row">
+                            <input type="submit" class="btn btn-success col-12" name="boton" value="volver">
+                        </div>
+                    </form>
+                </div>
+                <div  class="col-4">
+
+                </div>
+            </div>
+            <div id="footer" class="col-12">
+
+            </div>
+            <?php
+        } else {
+            ?>
+            <div id="cabecera" class="col-12">
+
+            </div>
+            <div id="main" class='row  '>
+                <div class="col-4">
+
+                </div>
+                <div class="col-4 center m-2 " >
+
+                    <form name="form" action="ACprofesor"  method="POST">
+                        {!! csrf_field(); !!}
+                        <div class=" row">
+                            <div class="col-12">
+                                <table class="table p-2" style="background-color: #c4cccf" >
+
+                                    <tr>
+                                        <th>Profesor</th>
+                                        <td>  <?php echo $nombre ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Curso</th> 
+                                        <td>
+                                            <select name="curso"><option>1</option><option>2</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Materia</th>
+                                        <td>
+                                            <select name="mat" id="materias">
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class='row mt-1'>
+                            <input type="submit" name="boton" class='btn btn-success  col-12' value="Resumen profesor"></br>
+                        </div>
+                        <div class='row mt-1'>
+                            <input type="submit" name="boton" class='btn btn-success col-12' value="Ver encuestas"></br>
+                        </div>
+                        <?php
+                        if ($tutor) {
+                            echo '<div class="row mt-1"> <input type="submit" name="boton" class="btn btn-success col-12" value="Resumen Tutor"></br> </div>';
+                        }
+                        ?> 
+                        <div class='row mt-1 '>
+                            <input type="submit" name="boton" class='btn btn-success col-12' value="Generar Usuarios"></br>
+                        </div>
+                        <div class='row mt-1'>
+                            <input type="submit" name="boton" class='btn btn-success col-12' value="volver"></br>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+
+            <div id="footer" class="col-12">
+
+            </div>
+
+            <?php
+        }
+        ?>
+
     </body>
 </html>
