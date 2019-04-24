@@ -24,18 +24,18 @@
                                 <img src="Logos Virgen/LOGOCIFP.jpg" width="100%"> 
                             </div>    
                         </div>
-                        <div class="row FondoSuave p-2" style="border-radius: 5%">
+                        <div class="row  p-2" style="border-radius: 5%;background-color: #8bacc1">
                             <form name="form" action="validar" method="POST">
                                 {!! csrf_field(); !!}
-                                <div class="form-group row">
-                                    <div class="col-12 m-1">
+                                <div class="form-group row pr-2">
+                                    <div class="col-12 m-1 ">
                                          <input type="text" class="form-control text-center" name="usuario" value="" placeholder="Usuario"></br>
                                     </div>
-                                    <div class="col-12 m-1">
+                                    <div class="col-12 m-1 ">
                                         <input type="password" class="form-control text-center" name="pass" value="" placeholder="Pass"></br>
                                     </div>
                                     <div class="col-12">
-                                        <input type="submit" class="btn btn-success" name="aceptar" value="aceptar">
+                                        <input type="submit" class="btn btn-success col-12" name="aceptar" value="aceptar">
                                     </div>
                                 </div>
                             </form>
