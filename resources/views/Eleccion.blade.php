@@ -14,22 +14,25 @@
         crossorigin="anonymous"></script>
         <script type = "text/javascript">
 $(function () {
+    var parametros = {"tipo": '<?php echo $tipo; ?>',
+        "nombre": '<?php echo $nombre; ?>'};
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         url: 'miJqueryAjax',
         type: 'POST',
-        //data: {"compuesto" :$(this).val() },
+        data: parametros,
         success: function (response) {
-            // alert(response);
+
             var txt = '';
             var datos = JSON.parse(response);
-            for (x in datos) {
-                txt = txt + '<option>' + datos[x].Descripcion + '</option>';
-            }
-            $("#materias").html(txt);
-
+            alert(response);
+                for (x in datos) {
+                    txt = txt + '<option>' + datos[x].descripcion + '</option>';
+                }
+                $("#materias").html(txt);
+         
         },
         statusCode: {
             404: function () {
@@ -64,7 +67,7 @@ $(function () {
                     <div class="row">
                         <table class="table col-12 " style="background-color: #c4cccf" >
                             <?php
-                            echo ('<tr><th>Alumno</th> <td>' . $alumno . '</td></tr>');
+                            echo ('<tr><th>Alumno</th> <td>' . $nombre . '</td></tr>');
                             echo ('<tr><th>Curso</th> <td>' . $curso . '</td></tr>');
                             echo ('<tr><th>Grupo</th> <td>' . $grupo . '</td></tr>');
                             ?>
@@ -92,7 +95,8 @@ $(function () {
 
             </div>
             <?php
-        } else {
+        }
+        if ($tipo == 'profesor') {
             ?>
             <div id="cabecera" class="col-12">
 
@@ -162,7 +166,70 @@ $(function () {
 
             <?php
         }
-        ?>
+        if ($tipo == 'Director') {
+            ?>
+            <div id="cabecera" class="col-12">
 
+            </div>
+            <div id="main" class='row  '>
+                <div class="col-4">
+
+                </div>
+                <div class="col-4 center m-2 " >
+
+                    <form name="form" action="ACprofesor"  method="POST">
+                        {!! csrf_field(); !!}
+                        <div class=" row">
+                            <div class="col-12">
+                                <table class="table p-2" style="background-color: #c4cccf" >
+
+                                    <tr>
+                                        <th>Director/ra</th>
+                                        <td>  <?php echo $nombre ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Curso</th> 
+                                        <td>
+                                            <select name="curso"><option>1</option><option>2</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Materia</th>
+                                        <td>
+                                            <select name="mat" id="materias">
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class='row mt-1'>
+                            <input type="submit" name="boton" class='btn btn-success  col-12' value="Nuevo Profesor"></br>
+                        </div>
+                        <div class='row mt-1'>
+                            <input type="submit" name="boton" class='btn btn-success col-12' value="Dar de baja profesor"></br>
+                        </div>
+                        <div class='row mt-1 '>
+                            <input type="submit" name="boton" class='btn btn-success col-12' value="Generar Usuarios"></br>
+                        </div>
+                        <div class='row mt-1'>
+                            <input type="submit" name="boton" class='btn btn-success col-12' value="volver"></br>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+
+            <div id="footer" class="col-12">
+
+            </div>
+            <?php
+        }
+        ?>
     </body>
 </html>

@@ -36,7 +36,7 @@ class ControladorMiguel extends Controller {
                     $curso = $resultado[0]->curso . ' - ' . $resultado[0]->descripcion;
                     $grupo = $resultado[0]->grupo;
 
-                    $datos = ['alumno' => $req->get('usuario'),
+                    $datos = ['nombre' => $req->get('usuario'),
                         'curso' => $curso,
                         'grupo' => $grupo,
                         'tipo' => 'alumno',
@@ -68,20 +68,35 @@ class ControladorMiguel extends Controller {
                             'tutor' => false,
                         ];
                     }
-                    $vista = 'Eleccion';
+                    $query = "SELECT rol.descripcion FROM `profesor`,rol WHERE profesor.rol = rol.id and `usuario` = '" . $req->get('usuario') . "'";
+                    $resultado = \DB::select($query);
+
+                    if ($resultado[0]->descripcion == 'Director') {
+                        $vista = 'rol';
+                    } else {
+                        $vista = 'Eleccion';
+                    }
+
+
                     return view($vista, $datos);
                 }
             }
         }
-        return view($vista);
     }
 
-    function Ajax() {
+    function Ajax(Request $req) {
+        $tipo = $req->get('tipo');
+        if ($tipo == 'profesor') {
+            $query = "SELECT  modulo.descripcion FROM `profesormodulo`,profesor,modulo where profesormodulo.IdProfesor = profesor.usuario and profesormodulo.IdModulo = modulo.id and profesor.nombre ='" . $req->get('nombre') . "' ";
+            $resultado = \DB::select($query);
+            echo json_encode($resultado);
+        }
+        if ($tipo == 'Director') {
+            $query = "SELECT descripcion FROM `modulo` ";
+            $resultado = \DB::select($query);
 
-        $query = "SELECT `Descripcion` FROM `modulo` ";
-        $fechas = \DB::select($query);
-
-        echo json_encode($fechas);
+            echo json_encode($resultado);
+        }
     }
 
     function accionUsuario(Request $req) {
@@ -110,9 +125,9 @@ class ControladorMiguel extends Controller {
 
         if ($req->get('boton') == 'volver') {
             return view('index');
-        } 
-        
-        if($req->get('boton') == 'Generar Usuarios') {
+        }
+
+        if ($req->get('boton') == 'Generar Usuarios') {
 
 
             if (!empty($req->get('mat'))) {

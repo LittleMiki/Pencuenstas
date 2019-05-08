@@ -24,7 +24,7 @@
                                 <img src="Logos Virgen/LOGOCIFP.jpg" width="100%"> 
                             </div>    
                         </div>
-                        <div class="row  p-2" style="border-radius: 5%;background-color: #8bacc1">
+                        <div class="row  p-2 shadow" style="border-radius: 5%;background-color: #8bacc1">
                             <form name="form" action="validar" method="POST">
                                 {!! csrf_field(); !!}
                                 <div class="form-group row pr-2">
