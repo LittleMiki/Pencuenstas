@@ -97,6 +97,11 @@ class ControladorMiguel extends Controller {
 
             echo json_encode($resultado);
         }
+        if($tipo == 'alumno'){
+            $query = "SELECT modulo.descripcion FROM `modulo`,alumnomodulo,alumno WHERE modulo.id = alumnomodulo.IdModulo and alumnomodulo.alumno = alumno.usuario and alumno.usuario = '" . $req->get('nombre') . "' ";
+            $resultado = \DB::select($query);
+            echo json_encode($resultado);
+        }
     }
 
     function accionUsuario(Request $req) {
@@ -108,6 +113,8 @@ class ControladorMiguel extends Controller {
             $grupo = $resultado[0]->grupo;
 
             $datos = [
+                'nombre' =>\Session::get('usuario'),
+                'tipo' => 'alumno',
                 'curso' => $curso,
                 'grupo' => $grupo,
             ];

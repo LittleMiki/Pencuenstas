@@ -13,11 +13,37 @@
 
 //Autor: Miguel Angel//
             $(function () {
+<<<<<<< HEAD
 
             $().ready(function () {
 
 
             //          alert(com);
+=======
+                var parametros = {"tipo": '<?php echo $tipo; ?>',
+                "nombre": '<?php echo $nombre; ?>'};
+                $().ready(function () {
+                    
+                        
+                    //          alert(com);
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: 'miJqueryAjax',
+                        type: 'POST',
+                        data: parametros,
+                        //data: {"compuesto" :$(this).val() },
+                        success: function (response) {
+                            // alert(response);
+                            var txt = '<option></option>';
+                            var datos = JSON.parse(response);
+                            for (x in datos) {
+                                txt = txt + '<option>' + datos[x].descripcion + '</option>';
+                            }
+                            $("#materias").html(txt);
+>>>>>>> master
 
             $.ajax({
             headers: {
