@@ -13,10 +13,11 @@
 
 //Autor: Miguel Angel//
             $(function () {
-
+                var parametros = {"tipo": '<?php echo $tipo; ?>',
+                "nombre": '<?php echo $nombre; ?>'};
                 $().ready(function () {
-
-
+                    
+                        
                     //          alert(com);
 
                     $.ajax({
@@ -25,13 +26,14 @@
                         },
                         url: 'miJqueryAjax',
                         type: 'POST',
+                        data: parametros,
                         //data: {"compuesto" :$(this).val() },
                         success: function (response) {
                             // alert(response);
                             var txt = '<option></option>';
                             var datos = JSON.parse(response);
                             for (x in datos) {
-                                txt = txt + '<option>' + datos[x].Descripcion + '</option>';
+                                txt = txt + '<option>' + datos[x].descripcion + '</option>';
                             }
                             $("#materias").html(txt);
 
