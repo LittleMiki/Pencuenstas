@@ -13,13 +13,6 @@
 
 //Autor: Miguel Angel//
             $(function () {
-<<<<<<< HEAD
-
-            $().ready(function () {
-
-
-            //          alert(com);
-=======
                 var parametros = {"tipo": '<?php echo $tipo; ?>',
                 "nombre": '<?php echo $nombre; ?>'};
                 $().ready(function () {
@@ -43,36 +36,20 @@
                                 txt = txt + '<option>' + datos[x].descripcion + '</option>';
                             }
                             $("#materias").html(txt);
->>>>>>> master
 
-            $.ajax({
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-                    url: 'miJqueryAjax',
-                    type: 'POST',
-                    //data: {"compuesto" :$(this).val() },
-                    success: function (response) {
-                    // alert(response);
-                    var txt = '<option></option>';
-                    var datos = JSON.parse(response);
-                    for (x in datos) {
-                    txt = txt + '<option>' + datos[x].Descripcion + '</option>';
-                    }
-                    $("#materias").html(txt);
-                    },
-                    statusCode: {
-                    404: function () {
-                    alert('web not found');
-                    }
-                    },
-                    error: function (x, xs, xt) {
+                        },
+                        statusCode: {
+                            404: function () {
+                                alert('web not found');
+                            }
+                        },
+                        error: function (x, xs, xt) {
 
-                    window.open(JSON.stringify(x));
-                    //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-                    }
-            });
-            }).keyup();
+                            window.open(JSON.stringify(x));
+                            //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+                        }
+                    });
+                }).keyup();
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -149,7 +126,7 @@
                     <?php
                     echo ('<tr><th>Curso</th><td>' . $curso . '</td></tr>');
                     echo('<tr><th>Grupo</th><td>' . $grupo . '</td></tr>');
-                    echo('<tr><th>Materia</th><td><select name="mat" id="materias"></select></td></tr></div>');
+                    echo('<tr><th>Materia</th><td><select name="mat" id="materias"></select></td></tr>');
                     ?>
                 </table>
             </div>

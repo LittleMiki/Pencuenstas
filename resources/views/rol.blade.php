@@ -20,9 +20,7 @@
     </head>
     <body class='content-fluid'>
 
-            <div id="cabecera" class="col-12">
-
-            </div>
+            @include('header')
             <div id="main" class='row text-center'>
                 <div  class="col-4">
 
@@ -48,9 +46,7 @@
 
                 </div>
             </div>
-            <div id="footer" class="col-12">
-
-            </div>
+            @include('footer')
 
     </body>
 </html>
