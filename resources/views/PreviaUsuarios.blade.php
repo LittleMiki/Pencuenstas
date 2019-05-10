@@ -10,9 +10,7 @@
 
     </head>
     <body>
-        <div id="cabecera">
-
-        </div>
+        @include('header')
         <div id="main">
             <h2>Login</h2>
             <form name="form" action="validar" method="POST">
@@ -22,8 +20,6 @@
                 <input type="submit" name="aceptar" value="aceptar">
             </form>
         </div>
-        <div id="footer">
-
-        </div>
+        @include('footer')
     </body>
 </html>

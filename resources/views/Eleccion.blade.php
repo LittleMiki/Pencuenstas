@@ -52,13 +52,10 @@ $(function () {
 
     </head>
     <body class='content-fluid'>
-
         <?php
         if ($tipo == 'alumno') {
             ?>
-            <div id="cabecera" class="col-12">
-
-            </div>
+            @include('header')
             <div id="main" class='row text-center'>
                 <div  class="col-4">
 
@@ -225,9 +222,7 @@ $(function () {
                 </div>
             </div>
 
-            <div id="footer" class="col-12">
-
-            </div>
+            @include('footer')
             <?php
         }
         ?>

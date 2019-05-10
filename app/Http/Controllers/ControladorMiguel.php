@@ -128,43 +128,6 @@ class ControladorMiguel extends Controller {
         return view($vista);
     }
 
-    function Gusuarios(Request $req) {
-
-        if ($req->get('boton') == 'volver') {
-            return view('index');
-        }
-
-        if ($req->get('boton') == 'Generar Usuarios') {
-
-
-            if (!empty($req->get('mat'))) {
-
-                $query = "SELECT `id` FROM `modulo` WHERE `descripcion` = '" . $req->get('mat') . "'";
-                $resultado = \DB::select($query);
-                $modulo = $resultado[0]->id;
-                $query = "SELECT COUNT(*) as cantidad FROM alumnomodulo WHERE `IdModulo` = '" . $modulo . "'";
-                $resultado = \DB::select($query);
-                //dd($resultado);
-                $cantidad = (int) $resultado[0]->cantidad;
-                $usus = "Usuario------Contrasenia </br>";
-                for ($i = 0; $i < 20; $i++) {
-                    $up = $req->get('curso') . "0" . $i . $modulo;
-                    $query = "INSERT INTO `alumno`(`usuario`, `pass`) VALUES ('" . $up . "','" . $up . "')";
-                    \DB::select($query);
-                    $query = "INSERT INTO `alumnomodulo`(`id`, `alumno`, `IdModulo`) VALUES (null,'" . $up . "','" . $modulo . "')";
-                    \DB::select($query);
-                    $usus = $usus . " " . $up . "----" . $up . " </br> ";
-                }
-
-                $devolver = [
-                    'usus' => $usus,
-                ];
-                \Session::put('usus', $usus);
-                return view("Gusuarios", $devolver);
-            }
-        }
-    }
-
     function descargarUsuarios() {
         $usus = \Session::get('usus');
         $usus = str_replace(" </br> ", " \r\n ", $usus);

@@ -10,9 +10,7 @@
 
     </head>
     <body>
-        <div id="cabecera">
-
-        </div>
+        @include('header')
         <div id="main" style="text-align: center">
 
                 <?php
@@ -29,8 +27,6 @@
                 <input type="submit" name="boton" value="volver">
             </form>
         </div>
-        <div id="footer">
-
-        </div>
+        @include('footer')
     </body>
 </html>
