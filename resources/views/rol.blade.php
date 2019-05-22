@@ -31,14 +31,14 @@
 
                         {!! csrf_field(); !!} 
                         <div class="form-group row pt-4 ml-4 center">
-                            <input type="submit" class="btn btn-success col-4 mr-1" name="boton" value="Profesor">
-                            <input type="submit" class="btn btn-success col-4" name="boton" value="Director">
+                            <input type="submit" class="btn btn-success col-4 mr-5" name="boton" value="Profesor">
+                            <input type="submit" class="btn btn-success col-4 " name="boton" value="Director">
                         </div>
                     </form>
                     <form name="form" action="volver" method="POST">
                         {!! csrf_field(); !!}
                         <div class="form-group row ml-4">
-                            <input type="submit" class="btn btn-success col-6" name="boton" value="volver">
+                            <input type="submit" class="btn btn-success col-6 ml-5" name="boton" value="volver">
                         </div>
                     </form>
                 </div>

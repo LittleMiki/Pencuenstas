@@ -27,7 +27,7 @@ $(function () {
 
             var txt = '';
             var datos = JSON.parse(response);
-            alert(response);
+            
                 for (x in datos) {
                     txt = txt + '<option>' + datos[x].descripcion + '</option>';
                 }
@@ -62,7 +62,7 @@ $(function () {
                 </div>
                 <div class="col-4">
                     <div class="row">
-                        <table class="table col-12 " style="background-color: #c4cccf" >
+                        <table class="table col-12 mt-3 " style="background-color: #c4cccf" >
                             <?php
                             echo ('<tr><th>Alumno</th> <td>' . $nombre . '</td></tr>');
                             echo ('<tr><th>Curso</th> <td>' . $curso . '</td></tr>');
@@ -88,16 +88,12 @@ $(function () {
 
                 </div>
             </div>
-            <div id="footer" class="col-12">
-
-            </div>
+            @include('footer')
             <?php
         }
         if ($tipo == 'profesor') {
             ?>
-            <div id="cabecera" class="col-12">
-
-            </div>
+             @include('header')
             <div id="main" class='row  '>
                 <div class="col-4">
 
@@ -157,17 +153,13 @@ $(function () {
                 </div>
             </div>
 
-            <div id="footer" class="col-12">
-
-            </div>
+            @include('footer')
 
             <?php
         }
         if ($tipo == 'Director') {
             ?>
-            <div id="cabecera" class="col-12">
-
-            </div>
+            @include('header')
             <div id="main" class='row  '>
                 <div class="col-4">
 
@@ -217,12 +209,10 @@ $(function () {
 
                     </form>
                 </div>
-                <div class="col-4">
-
-                </div>
+                @include('footer')
             </div>
 
-            @include('footer')
+<!--            @include('footer')-->
             <?php
         }
         ?>

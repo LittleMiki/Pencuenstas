@@ -119,10 +119,10 @@
     <!--Autor: Beatriz-->
     <body class="container">
         @include('header')
-        <div class="row pt-5 pb-3" id="main">
+        <div class="row pt-5 pb-3 " id="main">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <table class="table text-center" style="background-color: #c4cccf">
+                <table class="table text-center m-3" style="background-color: #c4cccf">
                     <?php
                     echo ('<tr><th>Curso</th><td>' . $curso . '</td></tr>');
                     echo('<tr><th>Grupo</th><td>' . $grupo . '</td></tr>');
