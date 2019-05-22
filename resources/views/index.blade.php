@@ -21,7 +21,7 @@
                     <div class="col-4 mt-3 ">
                         <div class="row">
                             <div class="col-12">
-                                <img src="Logos Virgen/LOGOCIFP.jpg" width="100%"> 
+                                <img src="Logos Virgen/02 LOGO CIFP VdG.jpg" width="100%"> 
                             </div>    
                         </div>
                         <div class="row  p-2 shadow" style="border-radius: 5%;background-color: #8bacc1">
