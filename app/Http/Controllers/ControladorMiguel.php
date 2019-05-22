@@ -72,6 +72,7 @@ class ControladorMiguel extends Controller {
                     $resultado = \DB::select($query);
 
                     if ($resultado[0]->descripcion == 'Director') {
+                        \Session::put('datos', $datos);
                         $vista = 'rol';
                     } else {
                         $vista = 'Eleccion';
