@@ -11,13 +11,62 @@
 
     </head>
     <body class="container">
-        <table class="table text-center" style="background-color: #c4cccf">
+        <div class="row">
+        <table class="col-12 table text-center" style="background-color: #c4cccf">
+            <?php
+            echo ('<tr><th>Grupo</th><td>' . $grupo[0]->curso . " " . $grupo[0]->grupo . " " . $grupo[0]->descripcion . '</td></tr>');
+            echo('<tr><th>Asignatura</th><td>' . $materia . '</td></tr>');
+            echo('<tr><th>Total Encuestados</th><td>' . $total_encuestas . '</td></tr>');
+            ?>
+            <tr><th>Fecha</th><td><?php echo date("d") . "/" . date("m") . "/" . date("Y"); ?></td></tr>
+
+        </table>
+            </div>
+        <div class="row">
+            <table class="col-10 table text-center" style="background-color: #c4cccf">
+                <tr><th>Encuesta/Pregunta</th>
                     <?php
-                    echo ('<tr><th>Grupo</th><td>' . $grupo[0]->curso ." " .$grupo[0]->grupo." ".$grupo[0]->descripcion.'</td></tr>');
-                    echo('<tr><th>Asignatura</th><td>' . $materia . '</td></tr>');
+                    foreach ($preguntas as $p) {
+                        echo('<th>' . $p->orden . '</th>');
+                    }
                     ?>
-                    <tr><th>Fecha</th><td><?php echo date("d") . "/" . date("m") . "/" . date("Y");?></td></tr>
-                    
-                </table>
+                </tr>
+                <?php
+                foreach ($tabla as $t) {
+                    $e;
+                    if (empty($e)) {
+                        echo('<tr><td>' . $t->IdAlumno . '</td>');
+                        echo('<td>' . $t->valor . '</td>');
+                        $e = $t->IdAlumno;
+                    } else if ($t->IdAlumno !== $e || $t === end($tabla)) {
+                        if ($t === end($tabla)) {
+                            echo('<td>' . $t->valor . '</td>');
+                        } else {
+                            echo('<tr><td>' . $t->IdAlumno . '</td>');
+                            echo('<td>' . $t->valor . '</td>');
+                            $e = $t->IdAlumno;
+                        }
+                    } else {
+                        echo('<td>' . $t->valor . '</td>');
+                    }
+                }
+                ?>
+                <tr><th>Media</th>
+                    <?php
+                    foreach ($mediaPreguntas as $m) {
+                        echo('<td>' . $m . '</td>');
+                    }
+                    ?>
+                </tr>
+            </table>
+            <table class="col-2 table text-center" style="background-color: #c4cccf">
+                <tr><th>Media</th></tr>
+                <?php
+                foreach ($mediaEncuesta as $m) {
+                    echo('<tr><td>' . $m . '</td></tr>');
+                }
+                ?>
+            </table>
+        </div>
     </body>
 </html>
