@@ -166,7 +166,7 @@ $(function () {
                 </div>
                 <div class="col-4 center m-2 " >
 
-                    <form name="form" action="ACprofesor"  method="POST">
+                    <form name="form" action="ACDirector"  method="POST">
                         {!! csrf_field(); !!}
                         <div class=" row">
                             <div class="col-12">
@@ -194,12 +194,25 @@ $(function () {
                                 </table>
                             </div>
                         </div>
-                        <div class='row mt-1'>
-                            <input type="submit" name="boton" class='btn btn-success  col-12' value="Nuevo Profesor"></br>
+                        <div class='row m-1 p-2 '>                            
+                            <input type="submit" name="boton" class='btn btn-success  col-4 m-1 ' value="Nuevo Profesor"></br>
+                            <input type="submit" name="boton" class='btn btn-success  col-4 m-1 ' value="Nuevo Modulo"></br>
                         </div>
-                        <div class='row mt-1'>
-                            <input type="submit" name="boton" class='btn btn-success col-12' value="Dar de baja profesor"></br>
+                        <div class='row m-1 p-2'>    
+                            <input type="submit" name="boton" class='btn btn-success  col-4 m-1 ' value="Nuevo Curso"></br>
+                             <input type="submit" name="boton" class='btn btn-success  col-4 m-1' value="Borrar Curso"></br>
                         </div>
+                        <div class='row m-1 p-2'>
+                            <input type="submit" name="boton" class='btn btn-success  col-4 m-1' value="Borrar Modulo"></br>
+                            <input type="submit" name="boton" class='btn btn-success  col-4 m-1' value="Borrar Profesor"></br>
+                        </div>
+                        <div class='row m-1 p-2'>
+                            <input type="submit" name="boton" class='btn btn-success  col-5 m-1' value="Modificar Modulo"></br>
+                            <input type="submit" name="boton" class='btn btn-success  col-5 m-1' value="Modificar Profesor"></br>
+                            <input type="submit" name="boton" class='btn btn-success  col-5 m-1' value="Modificar Curso"></br>
+                        </div>
+                        
+                        
                         <div class='row mt-1 '>
                             <input type="submit" name="boton" class='btn btn-success col-12' value="Generar Usuarios"></br>
                         </div>
@@ -209,7 +222,7 @@ $(function () {
 
                     </form>
                 </div>
-                @include('footer')
+              
             </div>
 
 <!--            @include('footer')-->
