@@ -23,7 +23,7 @@
         </table>
             </div>
         <div class="row">
-            <table class="col-10 table text-center" style="background-color: #c4cccf">
+            <table class="col-11 table text-center" style="background-color: #c4cccf">
                 <tr><th>Encuesta/Pregunta</th>
                     <?php
                     foreach ($preguntas as $p) {
@@ -59,7 +59,7 @@
                     ?>
                 </tr>
             </table>
-            <table class="col-2 table text-center" style="background-color: #c4cccf">
+            <table class="col-1 table text-center" style="background-color: #c4cccf">
                 <tr><th>Media</th></tr>
                 <?php
                 foreach ($mediaEncuesta as $m) {

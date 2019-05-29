@@ -10,8 +10,20 @@
         <script type = "text/javascript">
             $(function () {
             $().ready(function () {
+            var modulo = $("#modulo").val();
+            alert(modulo);
+            $.ajax({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+                    url: 'verEncuesta',
+                    data: {'modulo':modulo},
+                    type: 'POST',
+                    success: function (respuesta) {
+//                    var datos = JSON.parse(respuesta);
 
-
+                    }
+            });
             });
             });
         </script>
@@ -20,11 +32,11 @@
         <div class="row">
             <table class="col-12 table text-center" style="background-color: #c4cccf">
                 <?php
-                echo ('<tr><th>Grupo</th><td>' . $grupo[0]->curso . " " . $grupo[0]->grupo . " " . $grupo[0]->nombre . '</td></tr>');
-                echo('<tr><th>Asignatura</th><td>' . $materia . '</td></tr>');
+                echo('<tr><th>Curso</th><th>Grupo</th><th>Materia</th></tr>');
+                echo('<tr><td>' . $grupo[0]->curso . '</td><td>' . $grupo[0]->grupo . '</td><td id="modulo">' . $materia . '</td></tr>');
+                echo('<tr><th>Profesor/a</th><td>' . $grupo[0]->nombre . '</td><th>Fecha</th><td>' . date("d") . "/" . date("m") . "/" . date("Y") . '</td></tr>');
                 ?>
-                <tr><th>Fecha</th><td><?php echo date("d") . "/" . date("m") . "/" . date("Y"); ?></td></tr>
-
+                <!--<th>Fecha</th><td>--><?php // echo date("d") . "/" . date("m") . "/" . date("Y");         ?> <!--</td></tr>-->
             </table>
         </div>
     </body>

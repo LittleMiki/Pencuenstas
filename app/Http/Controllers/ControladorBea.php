@@ -29,12 +29,12 @@ class ControladorBea extends Controller {
         $respuestas = $req->get('respuestas');
         $profesor = $req->get('nombre');
         $modulo = \DB::select('select profesormodulo.IdModulo '
-                . 'FROM profesormodulo,profesor '
-                . 'WHERE profesormodulo.IdProfesor=profesor.usuario '
-                . 'and profesor.nombre="' . $profesor . '"');
+                        . 'FROM profesormodulo,profesor '
+                        . 'WHERE profesormodulo.IdProfesor=profesor.usuario '
+                        . 'and profesor.nombre="' . $profesor . '"');
         $existe = \DB::select('SELECT alumnomodulorespuesta.id FROM alumnomodulorespuesta '
-                . 'WHERE alumnomodulorespuesta.IdAlumno="' . $usuario . '" '
-                . 'AND alumnomodulorespuesta.IdModulo="' . $modulo[0]->IdModulo . '" LIMIT 1');
+                        . 'WHERE alumnomodulorespuesta.IdAlumno="' . $usuario . '" '
+                        . 'AND alumnomodulorespuesta.IdModulo="' . $modulo[0]->IdModulo . '" LIMIT 1');
         if ($existe != null) {
             for ($i = 0; $i < count($respuestas); $i++) {
                 \DB::update('UPDATE respuesta INNER JOIN alumnomodulorespuesta '
@@ -55,8 +55,17 @@ class ControladorBea extends Controller {
                         . 'VALUES(DEFAULT,"' . $usuario . '", "' . $modulo[0]->IdModulo . '" ,' . $id[0]->id . ')');
             }
         }
-        
+
         return view('encuestaAlmacenada');
+    }
+
+    function mostrarEncuestas() {
+
+        $materia = $_POST['modulo'];
+        $id_mo = \DB::select('SELECT id FROM modulo WHERE descripcion="' . $materia . '"');
+        $tabla = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden');
+
+        echo json_encode($tabla);
     }
 
 }

@@ -49,24 +49,67 @@ class ControladorMixto extends Controller {
             $id_mo = \DB::select('SELECT id FROM modulo WHERE descripcion="' . $materia . '"');
             $curso_grupo = \DB::select('SELECT curso.curso,curso.grupo,curso.descripcion FROM curso,modulo,modulocurso WHERE modulo.descripcion="' . $materia . '" AND modulo.id=modulocurso.IdModulo AND modulocurso.IdCurso=curso.id');
             $total_encuestas = \DB::select('SELECT COUNT(DISTINCT(alumnomodulorespuesta.IdAlumno)) as total FROM alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '"');
-            $tabla = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno, pregunta.orden, respuesta.valor FROM pregunta,respuesta, alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden ASC');
+            $tabla = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno, pregunta.orden, respuesta.valor FROM pregunta,respuesta, alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND respuesta.IdPregunta=pregunta.id ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden ASC');
             $tabla2 = \DB::select('SELECT pregunta.orden, respuesta.valor FROM pregunta,respuesta,alumnomodulorespuesta WHERE pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id ORDER BY pregunta.orden');
-            // $encuestas = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno FROM alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '"');
             $preguntas = \DB::select('SELECT orden FROM pregunta ORDER BY orden');
 
             $mediaEncuesta = [];
             $mediaPreguntas = [];
-//            $tab = [];
-//            foreach ($tabla as $t) {
-//                array_push($tab, [
-//                    'encuesta' => $t->IdAlumno,
-//                    'pregunta' => $t->orden,
-//                    'valor' => $t->valor
-//                ]);
-//            }
-            $e;
+
+            $p;
             $media;
             $suma;
+            $sumaMedia = 0;
+            $mediaTotal;
+            $x = 0;
+            $i = 0;
+            foreach ($tabla2 as $t) {
+                if (empty($p)) {
+                    $suma = (int) $t->valor;
+                    $i++;
+                    $p = $t->orden;
+                } else if ($t->orden !== $p || $t === \end($tabla2)) {
+                    if ($t->orden !== $p && $t === end($tabla2)) {
+                        $media = $suma / $i;
+                        $sumaMedia = $sumaMedia + $media;
+                        $x++;
+                        array_push($mediaPreguntas, $media);
+                        $i = 0;
+                        $suma = $t->valor;
+                        $i++;
+                        $media = $suma / $i;
+                        $sumaMedia = $sumaMedia + $media;
+                        $x++;
+                        array_push($mediaPreguntas, $media);
+                    } else {
+                        if ($t === end($tabla2)) {
+                            $suma = $suma + (int) $t->valor;
+                            $i++;
+                            $media = $suma / $i;
+                            $sumaMedia = $sumaMedia + $media;
+                            $x++;
+                            array_push($mediaPreguntas, $media);
+                        } else {
+                            $media = $suma / $i;
+                            $sumaMedia = $sumaMedia + $media;
+                            $x++;
+                            array_push($mediaPreguntas, $media);
+                            $i = 0;
+                            $media = 0;
+                            $suma = 0;
+                            $p = $t->orden;
+                            $suma = $t->valor;
+                            $i++;
+                        }
+                    }
+                } else {
+                    $suma = $suma + (int) $t->valor;
+                    $i++;
+                }
+            }
+            $e;
+            $media = 0;
+            $suma = 0;
             $i = 0;
             foreach ($tabla as $t) {
                 if (empty($e)) {
@@ -78,9 +121,15 @@ class ControladorMixto extends Controller {
                         $suma = $suma + (int) $t->valor;
                         $i++;
                         $media = $suma / $i;
+                        $sumaMedia = $sumaMedia + $media;
+                        $x++;
                         array_push($mediaEncuesta, $media);
+                        $mediaTotal = $sumaMedia / $x;
+                        array_push($mediaEncuesta, $mediaTotal);
                     } else {
                         $media = $suma / $i;
+                        $sumaMedia = $sumaMedia + $media;
+                        $x++;
                         array_push($mediaEncuesta, $media);
                         $i = 0;
                         $media = 0;
@@ -95,45 +144,6 @@ class ControladorMixto extends Controller {
                 }
             }
 
-            $p;
-            $media;
-            $suma;
-            $i = 0;
-            foreach ($tabla2 as $t) {
-                if (empty($p)) {
-                    $suma = (int) $t->valor;
-                    $i++;
-                    $p = $t->orden;
-                } else if ($t->orden !== $p || $t === end($tabla2)) {
-                    if ($t === end($tabla2)) {
-                        $suma = $suma + (int) $t->valor;
-                        $i++;
-                        $media = $suma / $i;
-                        array_push($mediaPreguntas, $media);
-//                        $suma = 0;
-//                        $media = 0;
-//                        $i = 0;
-//                        foreach ($mediaEncuesta as $m) {
-//                            $suma = $suma + (int) $m;
-//                            $i++;
-//                        }
-//                        $media = $suma / $i;
-//                        array_push($mediaEncuesta, $media);
-                    } else {
-                        $media = $suma / $i;
-                        array_push($mediaPreguntas, $media);
-                        $i = 0;
-                        $media = 0;
-                        $suma = 0;
-                        $p = $t->orden;
-                        $suma = $t->valor;
-                        $i++;
-                    }
-                } else {
-                    $suma = $suma + (int) $t->valor;
-                    $i++;
-                }
-            }
             $datos = [
                 'materia' => $materia,
                 'grupo' => $curso_grupo,
@@ -148,13 +158,7 @@ class ControladorMixto extends Controller {
         if ($req->get('boton') == 'Ver encuestas') {
             $materia = $req->get('mat');
             $id_mo = \DB::select('SELECT id FROM modulo WHERE descripcion="' . $materia . '"');
-            $curso_grupo =\DB::select('SELECT curso.curso,curso.grupo,profesor.nombre FROM curso,profesor,modulo,modulocurso,profesormodulo WHERE modulo.id="' . $id_mo[0]->id . '" AND modulo.id=modulocurso.IdModulo AND modulocurso.IdCurso=curso.id AND profesor.usuario=profesormodulo.IdProfesor AND profesormodulo.IdModulo=modulo.id');
-//            $tabla=\DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden');
-//            foreach ($tabla as $t) {
-//                $t->IdAlumno=[
-//                    
-//                ];
-//            }
+            $curso_grupo = \DB::select('SELECT curso.curso,curso.grupo,profesor.nombre FROM curso,profesor,modulo,modulocurso,profesormodulo WHERE modulo.id="' . $id_mo[0]->id . '" AND modulo.id=modulocurso.IdModulo AND modulocurso.IdCurso=curso.id AND profesor.usuario=profesormodulo.IdProfesor AND profesormodulo.IdModulo=modulo.id');
             $datos = [
                 'materia' => $materia,
                 'grupo' => $curso_grupo,
