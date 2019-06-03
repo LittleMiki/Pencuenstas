@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-04-2019 a las 15:54:15
+-- Tiempo de generación: 03-06-2019 a las 12:15:02
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.12
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `encuestas`
+-- Base de datos: `encuestasf`
 --
 
 -- --------------------------------------------------------
@@ -58,8 +58,12 @@ CREATE TABLE `alumnomodulo` (
 --
 
 INSERT INTO `alumnomodulo` (`id`, `alumno`, `IdModulo`) VALUES
-(1, 'daw201', 'DWES'),
-(3, 'daw222', 'DWES');
+(3, 'daw222', 'DWES'),
+(44, 'daw222', 'DIW'),
+(47, 'daw222', 'DWEC'),
+(48, 'daw201', 'DWES'),
+(49, 'daw201', 'DIW'),
+(50, 'daw201', 'DWEC');
 
 -- --------------------------------------------------------
 
@@ -79,12 +83,36 @@ CREATE TABLE `alumnomodulorespuesta` (
 --
 
 INSERT INTO `alumnomodulorespuesta` (`id`, `IdAlumno`, `IdModulo`, `IdRespuesta`) VALUES
-(1, 'daw222', 'DIW', 1),
-(2, 'daw222', 'DIW', 2),
-(3, 'daw222', 'DIW', 3),
-(4, 'daw222', 'DWEC', 4),
-(5, 'daw222', 'DWEC', 5),
-(6, 'daw222', 'DWEC', 6);
+(30, 'daw201', 'DWES', 33),
+(31, 'daw201', 'DWES', 34),
+(32, 'daw201', 'DWES', 35),
+(33, 'daw201', 'DWES', 36),
+(34, 'daw201', 'DWES', 37),
+(35, 'daw201', 'DIW', 38),
+(36, 'daw201', 'DIW', 39),
+(37, 'daw201', 'DIW', 40),
+(38, 'daw201', 'DIW', 41),
+(39, 'daw201', 'DIW', 42),
+(40, 'daw201', 'DWEC', 43),
+(41, 'daw201', 'DWEC', 44),
+(42, 'daw201', 'DWEC', 45),
+(43, 'daw201', 'DWEC', 46),
+(44, 'daw201', 'DWEC', 47),
+(45, 'daw222', 'DWES', 48),
+(46, 'daw222', 'DWES', 49),
+(47, 'daw222', 'DWES', 50),
+(48, 'daw222', 'DWES', 51),
+(49, 'daw222', 'DWES', 52),
+(50, 'daw222', 'DIW', 53),
+(51, 'daw222', 'DIW', 54),
+(52, 'daw222', 'DIW', 55),
+(53, 'daw222', 'DIW', 56),
+(54, 'daw222', 'DIW', 57),
+(55, 'daw222', 'DWEC', 58),
+(56, 'daw222', 'DWEC', 59),
+(57, 'daw222', 'DWEC', 60),
+(58, 'daw222', 'DWEC', 61),
+(59, 'daw222', 'DWEC', 62);
 
 -- --------------------------------------------------------
 
@@ -167,7 +195,9 @@ CREATE TABLE `pregunta` (
 INSERT INTO `pregunta` (`id`, `orden`, `pregunta`) VALUES
 (1, 2, '¿Te ha resultado interesante el curso?'),
 (2, 1, '¿El profesor te ha motivado?'),
-(4, 3, '¿Ha sido bueno el ambiente en clase?');
+(4, 3, '¿Ha sido bueno el ambiente en clase?'),
+(5, 4, 'Lo que se ha hecho bien'),
+(6, 5, 'Lo que se puede mejorar');
 
 -- --------------------------------------------------------
 
@@ -178,17 +208,19 @@ INSERT INTO `pregunta` (`id`, `orden`, `pregunta`) VALUES
 CREATE TABLE `profesor` (
   `usuario` varchar(30) NOT NULL,
   `pass` varchar(30) NOT NULL,
-  `nombre` varchar(40) NOT NULL
+  `nombre` varchar(40) NOT NULL,
+  `rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `profesor`
 --
 
-INSERT INTO `profesor` (`usuario`, `pass`, `nombre`) VALUES
-('diego', 'diego', 'Diego Cordoba'),
-('fernando', 'Abc123', 'Fernando Aranzabe'),
-('luisfer', 'luisfer', 'Luis Fernando');
+INSERT INTO `profesor` (`usuario`, `pass`, `nombre`, `rol`) VALUES
+('Ana', 'Ana123', 'AnaBelen', 1),
+('diego', 'diego', 'Diego Cordoba', 2),
+('fernando', 'Abc123', 'Fernando Aranzabe', 2),
+('luisfer', 'luisfer', 'Luis Fernando', 2);
 
 -- --------------------------------------------------------
 
@@ -220,20 +252,64 @@ INSERT INTO `profesormodulo` (`id`, `IdProfesor`, `IdModulo`) VALUES
 CREATE TABLE `respuesta` (
   `id` int(11) NOT NULL,
   `IdPregunta` int(11) NOT NULL,
-  `valor` varchar(20) NOT NULL
+  `valor` varchar(20) NOT NULL,
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `respuesta`
 --
 
-INSERT INTO `respuesta` (`id`, `IdPregunta`, `valor`) VALUES
-(1, 2, '3'),
-(2, 1, '4'),
-(3, 4, '3'),
-(4, 2, '3'),
-(5, 1, '4'),
-(6, 4, '2');
+INSERT INTO `respuesta` (`id`, `IdPregunta`, `valor`, `fecha`) VALUES
+(33, 2, '5', '2019-06-01'),
+(34, 1, '5', '2019-06-01'),
+(35, 4, '5', '2019-06-01'),
+(36, 5, 'cyl', '2019-06-01'),
+(37, 6, 'fifflyfñ', '2019-06-01'),
+(38, 2, '5', '2019-06-01'),
+(39, 1, '5', '2019-06-01'),
+(40, 4, '5', '2019-06-01'),
+(41, 5, 'werty', '2019-06-01'),
+(42, 6, 'nbguio', '2019-06-01'),
+(43, 2, '5', '2019-06-01'),
+(44, 1, '5', '2019-06-01'),
+(45, 4, '5', '2019-06-01'),
+(46, 5, '`jvtudud', '2019-06-01'),
+(47, 6, 'yfhfioñphxa', '2019-06-01'),
+(48, 2, '5', '2019-06-01'),
+(49, 1, '5', '2019-06-01'),
+(50, 4, '5', '2019-06-01'),
+(51, 5, 'seaferhbe', '2019-06-01'),
+(52, 6, 'fasgebeaba', '2019-06-01'),
+(53, 2, '5', '2019-06-01'),
+(54, 1, '5', '2019-06-01'),
+(55, 4, '5', '2019-06-01'),
+(56, 5, 'afgebh6yj', '2019-06-01'),
+(57, 6, 'jjhgggrrrrrr', '2019-06-01'),
+(58, 2, '1', '2019-06-01'),
+(59, 1, '1', '2019-06-01'),
+(60, 4, '1', '2019-06-01'),
+(61, 5, 'wwwwq', '2019-06-01'),
+(62, 6, 'eeeeeee', '2019-06-01');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
+CREATE TABLE `rol` (
+  `id` int(11) NOT NULL,
+  `descripcion` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`id`, `descripcion`) VALUES
+(1, 'Director'),
+(2, 'Profesor');
 
 --
 -- Índices para tablas volcadas
@@ -318,13 +394,13 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `alumnomodulo`
 --
 ALTER TABLE `alumnomodulo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `alumnomodulorespuesta`
 --
 ALTER TABLE `alumnomodulorespuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `modulocurso`
@@ -336,7 +412,7 @@ ALTER TABLE `modulocurso`
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `profesormodulo`
@@ -348,7 +424,7 @@ ALTER TABLE `profesormodulo`
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- Restricciones para tablas volcadas

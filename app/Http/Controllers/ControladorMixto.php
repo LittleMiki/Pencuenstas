@@ -49,9 +49,9 @@ class ControladorMixto extends Controller {
             $id_mo = \DB::select('SELECT id FROM modulo WHERE descripcion="' . $materia . '"');
             $curso_grupo = \DB::select('SELECT curso.curso,curso.grupo,curso.descripcion FROM curso,modulo,modulocurso WHERE modulo.descripcion="' . $materia . '" AND modulo.id=modulocurso.IdModulo AND modulocurso.IdCurso=curso.id');
             $total_encuestas = \DB::select('SELECT COUNT(DISTINCT(alumnomodulorespuesta.IdAlumno)) as total FROM alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '"');
-            $tabla = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno, pregunta.orden, respuesta.valor FROM pregunta,respuesta, alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND respuesta.IdPregunta=pregunta.id ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden ASC');
-            $tabla2 = \DB::select('SELECT pregunta.orden, respuesta.valor FROM pregunta,respuesta,alumnomodulorespuesta WHERE pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id ORDER BY pregunta.orden');
-            $preguntas = \DB::select('SELECT orden FROM pregunta ORDER BY orden');
+            $tabla = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno, pregunta.orden, respuesta.valor FROM pregunta,respuesta, alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND respuesta.IdPregunta=pregunta.id AND pregunta.id NOT BETWEEN 5 AND 6 ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden ASC');
+            $tabla2 = \DB::select('SELECT pregunta.orden, respuesta.valor FROM pregunta,respuesta,alumnomodulorespuesta WHERE pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id NOT BETWEEN 5 AND 6 ORDER BY pregunta.orden');
+            $preguntas = \DB::select('SELECT orden FROM pregunta WHERE pregunta.id NOT BETWEEN 5 AND 6 ORDER BY orden');
 
             $mediaEncuesta = [];
             $mediaPreguntas = [];
@@ -71,28 +71,20 @@ class ControladorMixto extends Controller {
                 } else if ($t->orden !== $p || $t === \end($tabla2)) {
                     if ($t->orden !== $p && $t === end($tabla2)) {
                         $media = $suma / $i;
-                        $sumaMedia = $sumaMedia + $media;
-                        $x++;
                         array_push($mediaPreguntas, $media);
                         $i = 0;
                         $suma = $t->valor;
                         $i++;
                         $media = $suma / $i;
-                        $sumaMedia = $sumaMedia + $media;
-                        $x++;
                         array_push($mediaPreguntas, $media);
                     } else {
                         if ($t === end($tabla2)) {
                             $suma = $suma + (int) $t->valor;
                             $i++;
                             $media = $suma / $i;
-                            $sumaMedia = $sumaMedia + $media;
-                            $x++;
                             array_push($mediaPreguntas, $media);
                         } else {
                             $media = $suma / $i;
-                            $sumaMedia = $sumaMedia + $media;
-                            $x++;
                             array_push($mediaPreguntas, $media);
                             $i = 0;
                             $media = 0;
@@ -162,6 +154,7 @@ class ControladorMixto extends Controller {
             $datos = [
                 'materia' => $materia,
                 'grupo' => $curso_grupo,
+                'id_mo'=>$id_mo
             ];
             return view("verEncuestas", $datos);
         }
