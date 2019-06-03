@@ -13,43 +13,42 @@
 
 //Autor: Miguel Angel//
             $(function () {
-                var parametros = {"tipo": '<?php echo $tipo; ?>',
-                "nombre": '<?php echo $nombre; ?>'};
-                $().ready(function () {
-                    
-                        
-                    //          alert(com);
+            var parametros = {"tipo": '<?php echo $tipo; ?>',
+                    "nombre": '<?php echo $nombre; ?>'};
+            $().ready(function () {
 
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: 'miJqueryAjax',
-                        type: 'POST',
-                        data: parametros,
-                        //data: {"compuesto" :$(this).val() },
-                        success: function (response) {
-                            // alert(response);
-                            var txt = '<option></option>';
-                            var datos = JSON.parse(response);
-                            for (x in datos) {
-                                txt = txt + '<option>' + datos[x].descripcion + '</option>';
-                            }
-                            $("#materias").html(txt);
 
-                        },
-                        statusCode: {
-                            404: function () {
-                                alert('web not found');
-                            }
-                        },
-                        error: function (x, xs, xt) {
+            //          alert(com);
 
-                            window.open(JSON.stringify(x));
-                            //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-                        }
-                    });
-                }).keyup();
+            $.ajax({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+                    url: 'miJqueryAjax',
+                    type: 'POST',
+                    data: parametros,
+                    //data: {"compuesto" :$(this).val() },
+                    success: function (response) {
+                    // alert(response);
+                    var txt = '<option></option>';
+                    var datos = JSON.parse(response);
+                    for (x in datos) {
+                    txt = txt + '<option>' + datos[x].descripcion + '</option>';
+                    }
+                    $("#materias").html(txt);
+                    },
+                    statusCode: {
+                    404: function () {
+                    alert('web not found');
+                    }
+                    },
+                    error: function (x, xs, xt) {
+
+                    window.open(JSON.stringify(x));
+                    //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+                    }
+            });
+            }).keyup();
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -94,6 +93,10 @@
                         <div class='row pt-4 pb-4 text-center' id='enviar'></div>\n\
                     </div>");
                     for (var p in datos.preguntas) {
+                    if (datos.preguntas[p].pregunta === "Lo que se ha hecho bien" || datos.preguntas[p].pregunta === "Lo que se puede mejorar") {
+                        $("#encuesta").append("<input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
+                        <textarea name='respuestas[]'></textarea>");
+                    } else{
                     $("#encuesta").append("\
                     <div class='col-lg-1'></div>\n\
                     <input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='40' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
@@ -105,6 +108,7 @@
                         <option>5</option>\n\
                     </select>\n\
                     <div class='col-lg-1'></div>");
+                    }
                     }
                     $("#enviar").append("<div class='col-lg-5'></div><input class='col-lg-2 text-center' type='submit' name='enviar' value='Enviar'><div class='col-lg-5'></div>");
                     }

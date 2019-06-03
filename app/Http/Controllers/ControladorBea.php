@@ -28,6 +28,8 @@ class ControladorBea extends Controller {
         $usuario = \Session::get('usuario');
         $respuestas = $req->get('respuestas');
         $profesor = $req->get('nombre');
+        $f = new \DateTime();
+        $fecha = $f->format('Y-m-d');
         $modulo = \DB::select('select profesormodulo.IdModulo '
                         . 'FROM profesormodulo,profesor '
                         . 'WHERE profesormodulo.IdProfesor=profesor.usuario '
@@ -40,7 +42,7 @@ class ControladorBea extends Controller {
                 \DB::update('UPDATE respuesta INNER JOIN alumnomodulorespuesta '
                         . 'on respuesta.id=alumnomodulorespuesta.IdRespuesta '
                         . 'INNER join pregunta on pregunta.id=respuesta.IdPregunta '
-                        . 'SET respuesta.valor = ' . $respuestas[$i] . ' '
+                        . 'SET respuesta.valor = "' . $respuestas[$i] . '", respuesta.fecha = "' . $fecha . '"'
                         . 'where alumnomodulorespuesta.IdAlumno="' . $usuario . '" '
                         . 'and alumnomodulorespuesta.IdModulo="' . $modulo[0]->IdModulo . '" AND '
                         . 'respuesta.IdPregunta=(Select pregunta.id from pregunta where pregunta.orden=' . ($i + 1) . ')');
@@ -49,7 +51,7 @@ class ControladorBea extends Controller {
         } else {
             for ($i = 0; $i < count($respuestas); $i++) {
                 \DB::Insert('INSERT INTO respuesta '
-                        . 'VALUES(DEFAULT, (Select id from pregunta where orden=' . ($i + 1) . '), ' . $respuestas[$i] . ')');
+                        . 'VALUES(DEFAULT, (Select id from pregunta where orden=' . ($i + 1) . '), "' . $respuestas[$i] . '", "' . $fecha . '")');
                 $id = \DB::select('SELECT MAX(id) as id FROM respuesta');
                 \DB::Insert('INSERT INTO alumnomodulorespuesta '
                         . 'VALUES(DEFAULT,"' . $usuario . '", "' . $modulo[0]->IdModulo . '" ,' . $id[0]->id . ')');
@@ -59,13 +61,45 @@ class ControladorBea extends Controller {
         return view('encuestaAlmacenada');
     }
 
-    function mostrarEncuestas() {
+    function encuestaPrim() {
+        $id_mo = $_POST['id_mo'];
+        $alumnos = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno FROM alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY alumnomodulorespuesta.IdAlumno');
+        $encuesta1 = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $alumnos[0]->IdAlumno . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY pregunta.orden');
+        $datos = [
+            'encuesta1' => $encuesta1,
+            'listado' => $alumnos
+        ];
+        echo json_encode($datos);
+    }
 
-        $materia = $_POST['modulo'];
-        $id_mo = \DB::select('SELECT id FROM modulo WHERE descripcion="' . $materia . '"');
-        $tabla = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo[0]->id . '" ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden');
+    function encuestaSig() {
+        $alumno = $_POST['alumno'];
+        $id_mo = $_POST['id_mo'];
+        $listado = $_POST['listado'];
+        $sig;
 
-        echo json_encode($tabla);
+        for ($i = 0; $i < count($listado); $i++) {
+            if ($listado[$i] === $alumno) {
+                $sig = $listado[$i+1];
+            }
+        }
+        $encuesta = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $sig . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY pregunta.orden');
+        echo json_encode($encuesta);
+    }
+
+    function encuestaAnt() {
+        $alumno = $_POST['alumno'];
+        $id_mo = $_POST['id_mo'];
+        $listado = $_POST['listado'];
+        $sig;
+
+        for ($i = 0; $i < count($listado); $i++) {
+            if ($listado[$i] === $alumno) {
+                $sig = $listado[$i-1];
+            }
+        }
+        $encuesta = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $sig . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY pregunta.orden');
+        echo json_encode($encuesta);
     }
 
 }

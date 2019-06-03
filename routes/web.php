@@ -96,4 +96,6 @@ Route::post('ModificarProfesor','ControladorMiguel@ModificarProfesor');
 //rutas bea
 Route::post('mostrarEncuesta','ControladorBea@Ajax');
 Route::post('respuestas','ControladorBea@guardarEncuesta');
-Route::post('verEncuestas','ControladorBea@mostrarEncuestas');
+Route::post('encuestaPrim','ControladorBea@encuestaPrim');
+Route::post('encuestaSig','ControladorBea@encuestaSig');
+Route::post('encuestaAnt','ControladorBea@encuestaAnt');
