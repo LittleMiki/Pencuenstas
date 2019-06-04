@@ -154,9 +154,106 @@ class ControladorMixto extends Controller {
             $datos = [
                 'materia' => $materia,
                 'grupo' => $curso_grupo,
-                'id_mo'=>$id_mo
+                'id_mo' => $id_mo
             ];
             return view("verEncuestas", $datos);
+        }
+        if ($req->get('boton') == 'Resumen Tutor') {
+            $tutor = \Session::get('usuario');
+            $curso = \DB::select('SELECT curso.curso,curso.grupo, curso.descripcion, curso.tutor FROM curso WHERE curso.tutor="' . $tutor . '"');
+            $modulos = \DB::select('SELECT modulo.id, modulo.descripcion FROM modulo,modulocurso,curso WHERE curso.tutor="' . $tutor . '" AND curso.id=modulocurso.IdCurso AND modulocurso.IdModulo=modulo.id');
+            
+            
+            $tabla = [];//tabla final
+//            $cumplen_criterio = 0;//guarda todos los "si"
+            $total_realizadas = 0;//guarda el total de las encuestas de todos los modulos
+            $valor_mayor_igual = 0;//guarda todas las encuestas con valor mayor o igual a 3
+            
+            foreach ($modulos as $m) {//recorremos el vector de todos los modulos del curso
+                $fila = [
+                    'modulo' => $m->descripcion,
+                ];//fila del modulo con sus tres valores de la tabla
+                
+                //seleccionamos todos los valores de las encuestas del modulo donde nos encontremos
+                $encuestas = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno, pregunta.orden, respuesta.valor FROM pregunta,respuesta, alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $m->id . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND respuesta.IdPregunta=pregunta.id AND pregunta.id NOT BETWEEN 5 AND 6 ORDER BY alumnomodulorespuesta.IdAlumno, pregunta.orden ASC');
+                
+                $alumno_id;//guardamos el alumno para diferenciar cada encuesta independientemente
+                $media;//media de la encuesta
+                $suma;//suma de los valores de cada encuesta del modulo
+//                $sumaMedia = 0;//total de las medias de las encuestas del modulo
+//                $mediaTotal = 0;//media de todas las encuestas del modulo
+                $i = 0;//indice para guardar cada valor para hacer la media
+                $x = 0;//indice para guardar cada encuesta para saber el total de encuestas del modulo
+                $y = 0;//indice para guardar cada encuesta que tiene un valor mayor o igual a 3
+                
+                foreach ($encuestas as $en) {//recorremos el vector de las encuestas del modulo
+                    if (empty($alumno_id)) {//comprobamos si esta vacia la variable auxiliar del alumno,asi sabemos que es el primer valor del vector
+                        //sumamos los primeros valores
+                        $suma = (int) $en->valor;
+                        $i++;
+                        $alumno_id = $en->IdAlumno;
+                    } else if ($en->IdAlumno !== $alumno_id || $en === end($encuestas)) {//si no es el primer valor, comprobamos si es otra encuesta o si es el final de la tabla
+                        if ($en === end($encuestas)) {//si es el final de la tabla, hacemos la ultima suma y media
+                            $suma = $suma + (int) $en->valor;
+                            $i++;
+                            $media = $suma / $i;
+                            if ($media >= 3) {//comprobamos si la encuesta pasa, y avanzamos los indices de encuestas aprobadas
+                                $y++;
+                                $valor_mayor_igual++;
+                            }
+                            //hacemos la media total de todas las encuestas
+//                            $sumaMedia = $sumaMedia + $media;
+                            $x++;
+//                            $mediaTotal = $sumaMedia / $x;
+                        } else {//si es otra encuesta, hacemos la media de la encuesta anterior
+                            $media = $suma / $i;
+                            if ($media >= 3) {//comprobamos si la encuesta pasa y avanzamos los indices de encuestas aprobadas
+                                $y++;
+                                $valor_mayor_igual++;
+                            }
+//                            $sumaMedia = $sumaMedia + $media;//sumamos la media de la encuesta anterior al total, avanzamos el indice y volvemos a poner a cero las variables
+                            $x++;
+                            $i = 0;
+                            $media = 0;
+                            $suma = 0;
+                            $alumno_id = $en->IdAlumno;//guardamos el alumno de la nueva encuesta
+                            $suma = $en->valor;//sumamos el primer valor de la encuesta
+                            $i++;
+                        }
+                    } else {//si continuamos con los valores de la encuesta anterior, sumamos el valor a lo que ya teniamos y avanzamos el indice
+                        $suma = $suma + (int) $en->valor;
+                        $i++;
+                    }
+                }
+                
+//                $pasa = 'No';
+//                if ($mediaTotal >= 3) {
+//                    $pasa = 'Si';
+//                }
+//                $fila['pasa'] = $pasa;
+//                $numero_encuestas = \DB::select('SELECT COUNT(DISTINCT(alumnomodulorespuesta.IdAlumno)) as total FROM alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $m->id . '"');
+                
+                $total_realizadas = $total_realizadas + $x;//sumamos una mas al total de las encuestas de todos los modulos
+                $fila['total'] = $x;//guardamos en la fila el total de encuestas del modulo
+                $fila['aprobadas'] = $y;//guardamos el total de encuestas aprobadas del modulo
+                array_push($tabla, $fila);//metemos el vector fila en la tabla final
+                unset($alumno_id);//borramos la variable alumno_id para poder comprobar el empty a la siquiente vuelta
+            }
+            //guardamos el total de modulos del curso actual
+            $total_modulo=\DB::select('SELECT COUNT(modulo.id) as total_modulos FROM modulo,modulocurso,curso WHERE curso.tutor="' . $tutor . '" AND curso.id=modulocurso.IdCurso AND modulocurso.IdModulo=modulo.id');
+            $total['total_modulos'] = $total_modulo[0]->total_modulos;// guardamos el la fila del total, el numero total de modulos
+            $total['total_realizadas'] = $total_realizadas;//guardamos en la fila del total todas las encuestas realizadas en el curso
+            $total['total_valor>=3'] = $valor_mayor_igual;//guardamos en la fila del total todas las encuestas que estan aprobadas en el curso
+            array_push($tabla, $total);//guardamos en la tabla final la fila del total
+            $criterio=0;//por calcular
+            array_push($tabla, $criterio);//agregamos el criterio en la tabla final
+            
+            $cumplimiento['%si']=40;//por calcular
+            
+            $porc_aprob=(int)(round(($valor_mayor_igual*100)/$total_realizadas));//calculamos el porcentaje de encuestas aprobadas, redondeamos y truncamos
+            $cumplimiento['total']=$porc_aprob;//agregamos el porcentaje a la fila cumplimiento
+            array_push($tabla, $cumplimiento);//agregamos la fila cumplimiento a la tabla final
+            dd($tabla);
         }
     }
 
