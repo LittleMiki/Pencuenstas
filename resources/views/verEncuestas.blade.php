@@ -1,4 +1,4 @@
-  //Autor: Beatriz//
+<!--Autor: Beatriz-->
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
@@ -22,19 +22,21 @@
                     data: {'id_mo': id_mo},
                     type: 'POST',
                     success: function (respuesta) {
-//                    alert(respuesta);
                     var datos = JSON.parse(respuesta);
-//                    listado=datos['listado'];
-//                    alert(listado);
                     listado.length = 0;
                     for (var d in datos['listado']) {
                     listado.push(datos['listado'][d].IdAlumno);
                     }
                     alumno = datos['encuesta1'][0].IdAlumno;
                     for (var d in datos['encuesta1']){
+                    if (datos['encuesta1'][d].pregunta === '(opcional)') {
+                    var opcional = datos['opcional'];
+                    } else{
+                    var opcional = datos['encuesta1'][d].pregunta;
+                    }
                     $("#encuesta").append('<div class="row">\n\
                     <input class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
-                    <input class="col-8" type="text" value="' + datos['encuesta1'][d].pregunta + '">\n\
+                    <input class="col-8" type="text" value="' + opcional + '">\n\
                     <input class="col-3" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
                     </div>');
                     }
@@ -54,12 +56,17 @@
                     success: function (respuesta) {
                     $("#encuesta div").remove();
                     var datos = JSON.parse(respuesta);
-                    alumno = datos[0].IdAlumno;
-                    for (var d in datos){
+                    alumno = datos['encuesta1'][0].IdAlumno;
+                    for (var d in datos['encuesta1']){
+                    if (datos['encuesta1'][d].pregunta === '(opcional)') {
+                    var opcional = datos['opcional'];
+                    } else{
+                    var opcional = datos['encuesta1'][d].pregunta;
+                    }
                     $("#encuesta").append('<div class="row">\n\
-                    <input class="col-1" type="text" value="' + datos[d].orden + '">\n\
-                    <input class="col-8" type="text" value="' + datos[d].pregunta + '">\n\
-                    <input class="col-3" type="text" value="' + datos[d].valor + '">\n\
+                    <input class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input class="col-8" type="text" value="' + opcional + '">\n\
+                    <input class="col-3" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
                     </div>');
                     }
                     }
@@ -76,12 +83,17 @@
                     success: function (respuesta) {
                     $("#encuesta div").remove();
                     var datos = JSON.parse(respuesta);
-                    alumno = datos[0].IdAlumno;
-                    for (var d in datos){
+                    alumno = datos['encuesta1'][0].IdAlumno;
+                    for (var d in datos['encuesta1']){
+                    if (datos['encuesta1'][d].pregunta === '(opcional)') {
+                    var opcional = datos['opcional'];
+                    } else{
+                    var opcional = datos['encuesta1'][d].pregunta;
+                    }
                     $("#encuesta").append('<div class="row">\n\
-                    <input class="col-1" type="text" value="' + datos[d].orden + '">\n\
-                    <input class="col-8" type="text" value="' + datos[d].pregunta + '">\n\
-                    <input class="col-3" type="text" value="' + datos[d].valor + '">\n\
+                    <input class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input class="col-8" type="text" value="' + opcional + '">\n\
+                    <input class="col-3" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
                     </div>');
                     }
                     }

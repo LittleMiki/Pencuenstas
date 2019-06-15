@@ -93,9 +93,25 @@
                         <div class='row pt-4 pb-4 text-center' id='enviar'></div>\n\
                     </div>");
                     for (var p in datos.preguntas) {
-                    if (datos.preguntas[p].pregunta === "Lo que se ha hecho bien" || datos.preguntas[p].pregunta === "Lo que se puede mejorar") {
-                        $("#encuesta").append("<input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
+                    if (datos.preguntas[p].orden === 4 || datos.preguntas[p].orden === 5 || datos.preguntas[p].orden === 6) {
+                    if (datos.preguntas[p].orden == 4) {
+                    $("#encuesta").append("\
+                    <div class='col-lg-1'></div>\n\
+                    <div class='col-lg-9 p-1 mb-2'><input name='p" + p + "' type='text' readonly value='Pregunta adicional:Formula la pregunta que introducirias para mejorar este cuestionario(valórala posteriormente).'>\n\
+                    <input type='text' name='opcional' value=''></div>\n\
+                    <select class='col-lg-1 mb-2' name='respuestas[]'>\n\
+                        <option>1</option>\n\
+                        <option>2</option>\n\
+                        <option>3</option>\n\
+                        <option>4</option>\n\
+                        <option>5</option>\n\
+                    </select>\n\
+                    <div class='col-lg-1'></div>");
+                    }
+                    if (datos.preguntas[p].orden === 5 || datos.preguntas[p].orden === 6){
+                    $("#encuesta").append("<input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
                         <textarea name='respuestas[]'></textarea>");
+                    }
                     } else{
                     $("#encuesta").append("\
                     <div class='col-lg-1'></div>\n\
