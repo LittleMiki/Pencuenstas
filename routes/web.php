@@ -21,7 +21,7 @@ Route::post('validar','ControladorMiguel@validarUsuario');
 Route::post('Hencuesta','ControladorMiguel@accionUsuario');
 Route::post('volver','ControladorMiguel@accionUsuario');
 Route::post('miJqueryAjax','ControladorMiguel@Ajax');
-Route::post('ACprofesor','ControladorMixto@Gusuarios');
+Route::post('GUsuarios','ControladorMixto@Gusuarios');
 Route::post('Descargar','ControladorMiguel@descargarUsuarios');
 Route::post('Rol',function (){
     $datos= \Session::get('datos');

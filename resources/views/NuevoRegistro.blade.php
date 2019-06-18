@@ -64,19 +64,19 @@
                                 <input class="col-12 text-center" type="text" name="id" placeholder="Id">
                             </div>
                             <div class="row pb-2 pl-3">
-                                <input class="col-12 text-center" type="password" name="descripcion" placeholder="Descripción">
+                                <input class="col-12 text-center" type="text" name="descripcion" placeholder="Descripción">
                             </div>
                             <div class="row pb-4 pl-3">
                                 <label class="col-2">Curso</label><select class="col-10" name="curso" id="cursos"></select> 
                             </div>
                             <div class="row pb-4 ml-3">
                                 <div class="col-3"></div>
-                                <input type="submit" name="Aceptar" class="col-6 btn btn-dark" value="Aceptar">
+                                <input type="submit" name="btn" class="col-6 btn btn-dark" value="Aceptar">
                                 <div class="col-3"></div>
                             </div>
                             <div class="row ml-3">
                                 <div class="col-4"></div>
-                                <input type="submit" name="Cancelar" class="col-4 btn btn-danger" value="Cancelar">
+                                <input type="submit" name="btn" class="col-4 btn btn-danger" value="Cancelar">
                                 <div class="col-4"></div>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                                 <input class="col-12 text-center" type="text" name="id" placeholder="Id">
                             </div>
                             <div class="row pb-2 pl-3">
-                                <input class="col-12 text-center" type="password" name="descripcion" placeholder="Descripción">
+                                <input class="col-12 text-center" type="text" name="descripcion" placeholder="Descripción">
                             </div>
                             <div class="row pb-2 pl-3">  
                                 <input class="col-12 text-center" type="number" name="curso" placeholder="Año">
@@ -144,12 +144,12 @@
                             </div>
                             <div class="row pb-4 ml-3">
                                 <div class="col-3"></div>
-                                <input type="submit" name="Aceptar" class="col-6 btn btn-dark" value="Aceptar">
+                                <input type="submit" name="btn" class="col-6 btn btn-dark" value="Aceptar">
                                 <div class="col-3"></div>
                             </div>
                             <div class="row ml-3">
                                 <div class="col-4"></div>
-                                <input type="submit" name="Cancelar" class="col-4 btn btn-danger" value="Cancelar">
+                                <input type="submit" name="btn" class="col-4 btn btn-danger" value="Cancelar">
                                 <div class="col-4"></div>
                             </div>
                         </div>
@@ -175,12 +175,12 @@
                             </div>
                             <div class="row pb-4 ml-3">
                                 <div class="col-3"></div>
-                                <input type="submit" name="Aceptar" class="col-6 btn btn-dark" value="Aceptar">
+                                <input type="submit" name="btn" class="col-6 btn btn-dark" value="Aceptar">
                                 <div class="col-3"></div>
                             </div>
                             <div class="row ml-3">
                                 <div class="col-4"></div>
-                                <input type="submit" name="Cancelar" class="col-4 btn btn-danger" value="Cancelar">
+                                <input type="submit" name="btn" class="col-4 btn btn-danger" value="Cancelar">
                                 <div class="col-4"></div>
                             </div>
                         </div>

@@ -159,7 +159,7 @@
         if ($tipo == 'Director') {
             ?>
             @include('header')
-            <form name="form" action="ACDirector"  method="POST">
+                <form name="form" action="GUsuarios"  method="POST">
                 {!! csrf_field(); !!}
                 <div class="row pt-5">
                     <div class="col-4"></div>
@@ -185,12 +185,23 @@
                                             </select>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <th></th>
+                                        <td>
+                                            <div class='col-5'></div>
+                                            <input type="submit" name="boton" class='btn btn-dark col-6 text-center' value="Generar Usuarios">
+                                            <div class='col-4'></div>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
                         <div class="col-4"></div>
                     </div>
                 </div>
+                </form>
+              <form name="form" action="ACDirector"  method="POST">  
+                  {!! csrf_field(); !!}
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="col-6 cajaSombra pt-5 pb-5 pl-3 pl-3">
@@ -211,11 +222,6 @@
                             <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Modificar Profesor">
                             <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Modificar Modulo">
                             <input type="submit" name="boton" class='btn btn-dark  col-3' value="Modificar Curso">
-                        </div>
-                        <div class='row pb-4'>
-                            <div class='col-3'></div>
-                            <input type="submit" name="boton" class='btn btn-dark col-6 text-center' value="Generar Usuarios">
-                            <div class='col-3'></div>
                         </div>
                         <div class='row'>
                             <div class='col-4'></div>
