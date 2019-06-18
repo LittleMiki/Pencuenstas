@@ -75,7 +75,7 @@
                             <input class='col-lg-5' readonly type='text' name='nombre' value='" + datos.nombre[0].nombre + "'/>\n\
                             <div class='col-lg-1'></div>\n\
                             <label class='col-lg-1 mt-1'>Fecha</label>\n\
-                            <input class='col-lg-2' id='fecha' type='datetime' disabled='' value='" + f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear() + "'>\n\
+                            <input class='col-lg-2' id='fecha' type='datetime' value='" + f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear() + "'>\n\
                             <div class='col-lg-1'></div>\n\
                         </div>\n\
                         <div class='row pt-3'>\n\
@@ -100,6 +100,7 @@
                     <div class='col-lg-9 p-1 mb-2'><input name='p" + p + "' type='text' readonly value='Pregunta adicional:Formula la pregunta que introducirias para mejorar este cuestionario(valórala posteriormente).'>\n\
                     <input type='text' name='opcional' value=''></div>\n\
                     <select class='col-lg-1 mb-2' name='respuestas[]'>\n\
+                        <option></option>\n\
                         <option>1</option>\n\
                         <option>2</option>\n\
                         <option>3</option>\n\
@@ -117,6 +118,7 @@
                     <div class='col-lg-1'></div>\n\
                     <input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='40' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
                     <select class='col-lg-1 mb-2' name='respuestas[]'>\n\
+                        <option></option>\n\
                         <option>1</option>\n\
                         <option>2</option>\n\
                         <option>3</option>\n\
@@ -137,20 +139,22 @@
         </script>
     </head>
     <!--Autor: Beatriz-->
-    <body class="container">
+    <body class="container-fluid">
         @include('header')
-        <div class="row pt-5 pb-3 " id="main">
-            <div class="col-lg-3"></div>
-            <div class="col-lg-6">
-                <table class="table text-center m-3" style="background-color: #c4cccf">
-                    <?php
-                    echo ('<tr><th>Curso</th><td>' . $curso . '</td></tr>');
-                    echo('<tr><th>Grupo</th><td>' . $grupo . '</td></tr>');
-                    echo('<tr><th>Materia</th><td><select name="mat" id="materias"></select></td></tr>');
-                    ?>
-                </table>
-            </div>
-            <div class="col-lg-3"></div>
+        <div class="row text-center">
+            <div  class="col-3"></div>
+            <div class="col-6 pt-5">
+                <div class="row">
+                    <table class="table col-12 text-center" style="background-color: #eff0f1">
+                        <?php
+                        echo ('<tr><th>Curso</th><td>' . $curso . '</td></tr>');
+                        echo('<tr><th>Grupo</th><td>' . $grupo . '</td></tr>');
+                        echo('<tr><th>Materia</th><td><select name="mat" id="materias"></select></td></tr>');
+                        ?>
+                    </table>
+                </div>
+            </div>    
+            <div  class="col-3"></div>
         </div>
         <form class="row pt-5 pb-5" id='formulario' name='form' action='respuestas' method='POST'>
             {!! csrf_field(); !!}
