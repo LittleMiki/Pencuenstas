@@ -182,60 +182,88 @@ class ControladorMiguel extends Controller {
     }
 
     function NuevoProfesor(Request $req) {
-        $query = "INSERT INTO `profesor` (`usuario`, `pass`, `nombre`, `rol`) VALUES ('" . $req->get('usuario') . "', '" . $req->get('pass') . "', '" . $req->get('nombre') . "', '2')";
-        \DB::select($query);
-        $datos = \Session::get('datos');
-        $vista = 'Eleccion';
-        $datos['tipo'] = 'Director';
-        return view($vista, $datos);
+        if ($req->get('btn') == 'Aceptar') {
+
+            $query = "INSERT INTO `profesor` (`usuario`, `pass`, `nombre`, `rol`) VALUES ('" . $req->get('usuario') . "', '" . $req->get('pass') . "', '" . $req->get('nombre') . "', '2')";
+            \DB::select($query);
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+        } else {
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+        }
     }
 
     function NuevoCurso(Request $req) {
-        $query = "INSERT INTO `curso` (`id`, `descripcion`, `curso`, `grupo`, `tutor`) VALUES ('" . $req->get('id') . "', '" . $req->get('descripcion') . "', '" . $req->get('curso') . "', '" . $req->get('grupo') . "', '" . $req->get('profesores') . "')";
-        $datos = \Session::get('datos');
-        $vista = 'Eleccion';
-        $datos['tipo'] = 'Director';
-        return view($vista, $datos);
+        if ($req->get('btn') == 'Aceptar') {
+            $query = "INSERT INTO `curso` (`id`, `descripcion`, `curso`, `grupo`, `tutor`) VALUES ('" . $req->get('id') . "', '" . $req->get('descripcion') . "', '" . $req->get('curso') . "', '" . $req->get('grupo') . "', '" . $req->get('profesores') . "')";
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+        } else {
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+        }
     }
 
     function NuevoModulo(Request $req) {
-        $query = "INSERT INTO `modulo` (`id`, `descripcion`) VALUES ('" . $req->get('id') . "', '" . $req->get('descripcion') . "')";
-        \DB::select($query);
-        $query = "SELECT `id` FROM `curso` WHERE `descripcion` ='" . $req->get('curso') . "'";
-        $resultado = \DB::select($query);
-        $query = "INSERT INTO `modulocurso` (`id`, `IdModulo`, `IdCurso`) VALUES (NULL, '" . $req->get('id') . "', '" . $resultado[0]->id . "')";
-        \DB::select($query);
-        $datos = \Session::get('datos');
-        $vista = 'Eleccion';
-        $datos['tipo'] = 'Director';
-        return view($vista, $datos);
+        if ($req->get('btn') == 'Aceptar') {
+            $query = "INSERT INTO `modulo` (`id`, `descripcion`) VALUES ('" . $req->get('id') . "', '" . $req->get('descripcion') . "')";
+            \DB::select($query);
+            $query = "SELECT `id` FROM `curso` WHERE `descripcion` ='" . $req->get('curso') . "'";
+            $resultado = \DB::select($query);
+            $query = "INSERT INTO `modulocurso` (`id`, `IdModulo`, `IdCurso`) VALUES (NULL, '" . $req->get('id') . "', '" . $resultado[0]->id . "')";
+            \DB::select($query);
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+        } else {
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+        }
     }
 
     function BorrarCurso(Request $req) {
-        $query = "DELETE FROM `curso` WHERE `descripcion` = '" . $req->get('nombre') . "'";
-        \DB::select($query);
-        $datos = \Session::get('datos');
-        $vista = 'Eleccion';
-        $datos['tipo'] = 'Director';
-        return view($vista, $datos);
+       
+            $query = "DELETE FROM `curso` WHERE `descripcion` = '" . $req->get('nombre') . "'";
+            \DB::select($query);
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+        
     }
 
     function BorrarProfesor(Request $req) {
-        $query = "DELETE FROM `profesor` WHERE `nombre` = '" . $req->get('nombre') . "'";
-        \DB::select($query);
-        $datos = \Session::get('datos');
-        $vista = 'Eleccion';
-        $datos['tipo'] = 'Director';
-        return view($vista, $datos);
+        
+            $query = "DELETE FROM `profesor` WHERE `nombre` = '" . $req->get('nombre') . "'";
+            \DB::select($query);
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+      
     }
 
     function BorrarModulo(Request $req) {
-        $query = "DELETE FROM `modulo` WHERE `descripcion` = '" . $req->get('nombre') . "'";
-        \DB::select($query);
-        $datos = \Session::get('datos');
-        $vista = 'Eleccion';
-        $datos['tipo'] = 'Director';
-        return view($vista, $datos);
+    
+            $query = "DELETE FROM `modulo` WHERE `descripcion` = '" . $req->get('nombre') . "'";
+            \DB::select($query);
+            $datos = \Session::get('datos');
+            $vista = 'Eleccion';
+            $datos['tipo'] = 'Director';
+            return view($vista, $datos);
+      
     }
 
     function ModificarProfesor(Request $req) {
