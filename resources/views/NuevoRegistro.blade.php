@@ -33,12 +33,39 @@
                                 //data: {"compuesto" :$(this).val() },
                                 success: function (response) {
                                 //                            alert(response);
-                                var txt = '<option></option>';
+                                var txt;
                                 var datos = JSON.parse(response);
                                 for (x in datos) {
                                 txt = txt + '<option>' + datos[x].descripcion + '</option>';
                                 }
-                                $("#cursos").html(txt);
+                                $("#cursos").append(txt);
+                                },
+                                statusCode: {
+                                404: function () {
+                                alert('web not found');
+                                }
+                                },
+                                error: function (x, xs, xt) {
+
+                                window.open(JSON.stringify(x));
+                                //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+                                }
+                        });
+                        $.ajax({
+                        headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                                url: 'AjaxProfes',
+                                type: 'POST',
+                                //data: {"compuesto" :$(this).val() },
+                                success: function (response) {
+                                //                            alert(response);
+                                var txt;
+                                var datos = JSON.parse(response);
+                                for (x in datos) {
+                                txt = txt + '<option>' + datos[x].nombre + '</option>';
+                                }
+                                $("#prof").append(txt);
                                 },
                                 statusCode: {
                                 404: function () {
@@ -67,7 +94,10 @@
                                 <input class="col-12 text-center" type="text" name="descripcion" placeholder="Descripción">
                             </div>
                             <div class="row pb-4 pl-3">
-                                <label class="col-2">Curso</label><select class="col-10" name="curso" id="cursos"></select> 
+                                <label class="col-3">Profesor </label><select class="col-9" name="profesor" id="prof"> <option disabled="disabled" selected="true">Seleccione un Profesor</option></select> 
+                            </div>
+                            <div class="row pb-4 pl-3">
+                                <label class="col-3">Curso</label><select class="col-9" name="curso" id="cursos"><option disabled="disabled" selected="true">Seleccione un Curso</option></select> 
                             </div>
                             <div class="row pb-4 ml-3">
                                 <div class="col-3"></div>

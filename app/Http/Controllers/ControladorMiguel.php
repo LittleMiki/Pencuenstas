@@ -21,7 +21,9 @@ class ControladorMiguel extends Controller {
         //dd($tabla);
         $query = "SELECT * FROM " . $tabla . " WHERE `usuario` = '" . $req->get('usuario') . "'";
         $resultado = \DB::select($query);
-
+        if (empty($resultado)) {
+           return view($vista); 
+        }
 
 
         if ($resultado[0]->usuario == $req->get('usuario')) {
@@ -81,7 +83,11 @@ class ControladorMiguel extends Controller {
 
                     return view($vista, $datos);
                 }
+            }else{
+              return view($vista);  
             }
+        }else{
+            return view($vista);
         }
     }
 
@@ -141,6 +147,41 @@ class ControladorMiguel extends Controller {
         $query = "SELECT * FROM `curso` WHERE `descripcion` = '" . $req->get('nombre') . "'";
         $resultado = \DB::select($query);
         echo json_encode($resultado);
+    }
+
+    function PeticionTutor(Request $req) {
+        $query = "SELECT `tutor` FROM `curso` WHERE `descripcion` = '" . $req->get('nombre') . "'";
+        $resultado = \DB::select($query);
+        echo json_encode($resultado);
+    }
+    function PModulo(Request $req) {
+        //SELECT profesor.nombre FROM `profesormodulo`,modulo,profesor WHERE profesormodulo.IdProfesor=profesor.usuario and profesormodulo.IdModulo=modulo.id and modulo.descripcion = 'Desarrollo web en entorno servidor'
+        $query = "SELECT profesor.nombre FROM `profesormodulo`,modulo,profesor WHERE profesormodulo.IdProfesor=profesor.usuario and profesormodulo.IdModulo=modulo.id and modulo.descripcion = '" . $req->get('nombre') . "'";
+        $resultado = \DB::select($query);
+        echo json_encode($resultado);
+    }
+
+    function Tutor(Request $req) {
+        if ($req->get('aceptar') == 'Guardar') {
+             $query = "UPDATE `curso` SET `tutor`= (SELECT `usuario` FROM `profesor` WHERE `nombre` = '" . $req->get('nuevoTutor') . "') WHERE `descripcion` = '" . $req->get('selec') . "'";
+            //dd($query);
+            $resultado = \DB::select($query);
+        }
+        $datos = \Session::get('datos');
+        $vista = 'Eleccion';
+        $datos['tipo'] = 'Director';
+        return view($vista, $datos);
+    }
+    function ProfeModulo(Request $req) {
+        if ($req->get('aceptar') == 'Guardar') {
+             //$query = "UPDATE `curso` SET `tutor`= (SELECT `usuario` FROM `profesor` WHERE `nombre` = '" . $req->get('nuevoTutor') . "') WHERE `descripcion` = '" . $req->get('selec') . "'";
+             $query="UPDATE `profesormodulo` SET `IdProfesor`= (SELECT `usuario` FROM `profesor` WHERE `nombre` = '" . $req->get('nuevoProfe') . "') WHERE `IdModulo` =(SELECT `id` FROM `modulo` WHERE `descripcion` ='" . $req->get('selec') . "')" ;
+            $resultado = \DB::select($query);
+        }
+        $datos = \Session::get('datos');
+        $vista = 'Eleccion';
+        $datos['tipo'] = 'Director';
+        return view($vista, $datos);
     }
 
     function OP(Request $req) {
@@ -221,6 +262,10 @@ class ControladorMiguel extends Controller {
             $resultado = \DB::select($query);
             $query = "INSERT INTO `modulocurso` (`id`, `IdModulo`, `IdCurso`) VALUES (NULL, '" . $req->get('id') . "', '" . $resultado[0]->id . "')";
             \DB::select($query);
+            
+            $query = "INSERT INTO `profesormodulo` (`id`, `IdProfesor`, `IdModulo`) VALUES (NULL, (SELECT `usuario` FROM `profesor` WHERE `nombre` = '" . $req->get('profesor') . "'), '" . $req->get('id') . "');";
+            \DB::select($query);
+            
             $datos = \Session::get('datos');
             $vista = 'Eleccion';
             $datos['tipo'] = 'Director';
@@ -234,36 +279,33 @@ class ControladorMiguel extends Controller {
     }
 
     function BorrarCurso(Request $req) {
-       
-            $query = "DELETE FROM `curso` WHERE `descripcion` = '" . $req->get('nombre') . "'";
-            \DB::select($query);
-            $datos = \Session::get('datos');
-            $vista = 'Eleccion';
-            $datos['tipo'] = 'Director';
-            return view($vista, $datos);
-        
+
+        $query = "DELETE FROM `curso` WHERE `descripcion` = '" . $req->get('nombre') . "'";
+        \DB::select($query);
+        $datos = \Session::get('datos');
+        $vista = 'Eleccion';
+        $datos['tipo'] = 'Director';
+        return view($vista, $datos);
     }
 
     function BorrarProfesor(Request $req) {
-        
-            $query = "DELETE FROM `profesor` WHERE `nombre` = '" . $req->get('nombre') . "'";
-            \DB::select($query);
-            $datos = \Session::get('datos');
-            $vista = 'Eleccion';
-            $datos['tipo'] = 'Director';
-            return view($vista, $datos);
-      
+
+        $query = "DELETE FROM `profesor` WHERE `nombre` = '" . $req->get('nombre') . "'";
+        \DB::select($query);
+        $datos = \Session::get('datos');
+        $vista = 'Eleccion';
+        $datos['tipo'] = 'Director';
+        return view($vista, $datos);
     }
 
     function BorrarModulo(Request $req) {
-    
-            $query = "DELETE FROM `modulo` WHERE `descripcion` = '" . $req->get('nombre') . "'";
-            \DB::select($query);
-            $datos = \Session::get('datos');
-            $vista = 'Eleccion';
-            $datos['tipo'] = 'Director';
-            return view($vista, $datos);
-      
+
+        $query = "DELETE FROM `modulo` WHERE `descripcion` = '" . $req->get('nombre') . "'";
+        \DB::select($query);
+        $datos = \Session::get('datos');
+        $vista = 'Eleccion';
+        $datos['tipo'] = 'Director';
+        return view($vista, $datos);
     }
 
     function ModificarProfesor(Request $req) {
