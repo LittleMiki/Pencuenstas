@@ -93,9 +93,14 @@ Route::post('OtrosProfes','ControladorMiguel@OP');
 Route::post('ModificarModulo','ControladorMiguel@ModificarModulo');
 Route::post('ModificarCurso','ControladorMiguel@ModificarCurso');
 Route::post('ModificarProfesor','ControladorMiguel@ModificarProfesor');
+
+
 //rutas bea
+Route::post('ACprofesor','ControladorMixto@Gusuarios');
 Route::post('mostrarEncuesta','ControladorBea@Ajax');
 Route::post('respuestas','ControladorBea@guardarEncuesta');
 Route::post('encuestaPrim','ControladorBea@encuestaPrim');
 Route::post('encuestaSig','ControladorBea@encuestaSig');
 Route::post('encuestaAnt','ControladorBea@encuestaAnt');
+//botones volver//
+Route::get('atras','ControladorBea@atras');

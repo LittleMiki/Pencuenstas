@@ -13,22 +13,24 @@
     </head>
     <body class="container-fluid">
         @include('header')
-        <div id="main" style="text-align: center">
+        <div class="row text-center" id="main" style="text-align: center">
+            <div class="col-12 text-center">
 
                 <?php
                 echo $usus;
                 ?>
-            </table>
-            
-            <form name="form" action="Descargar" method="POST">
-                {!! csrf_field(); !!}
-                <input type="submit" name="boton" value="Descargar">
-            </form>
-            <form name="form" action="ACprofesor" method="POST">
-                {!! csrf_field(); !!}
-                <input type="submit" name="boton" value="volver">
-            </form>
-        </div>
-        @include('footer')
+                </table>
+
+                <form name="form" action="Descargar" method="POST">
+                    {!! csrf_field(); !!}
+                    <input type="submit" name="boton" value="Descargar">
+                </form>
+                <form name="form" action="ACprofesor" method="POST">
+                    {!! csrf_field(); !!}
+                    <input type="submit" name="boton" value="volver">
+                </form>
+            </div>
+            <div class="row p-5"></div>
+            @include('footer')
     </body>
 </html>

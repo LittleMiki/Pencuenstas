@@ -34,11 +34,19 @@
                     } else{
                     var opcional = datos['encuesta1'][d].pregunta;
                     }
-                    $("#encuesta").append('<div class="row">\n\
-                    <input class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
-                    <input class="col-8" type="text" value="' + opcional + '">\n\
-                    <input class="col-3" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
+                    if (datos['encuesta1'][d].pregunta === 'Lo que se ha hecho bien' || datos['encuesta1'][d].pregunta === 'Lo que se puede mejorar') {
+                    $("#encuesta").append('<div class="row pb-3">\n\
+                    <input readonly="" class="col-1 text-center" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input readonly="" class="col-3" type="text" value="' + datos['encuesta1'][d].pregunta + '">\n\
+                    <textarea readonly="" class="col-8">' + datos['encuesta1'][d].valor + '"</textarea>\n\
                     </div>');
+                    } else{
+                    $("#encuesta").append('<div class="row pb-1">\n\
+                    <input readonly="" class="col-1 text-center" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input readonly="" class="col-10" type="text" value="' + opcional + '">\n\
+                    <input readonly="" class="col-1 text-center" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
+                    </div>');
+                    }
                     }
 
                     $("#anterior").append('<button>Anterior</button>');
@@ -63,11 +71,19 @@
                     } else{
                     var opcional = datos['encuesta1'][d].pregunta;
                     }
-                    $("#encuesta").append('<div class="row">\n\
-                    <input class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
-                    <input class="col-8" type="text" value="' + opcional + '">\n\
-                    <input class="col-3" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
+                    if (datos['encuesta1'][d].pregunta === 'Lo que se ha hecho bien' || datos['encuesta1'][d].pregunta === 'Lo que se puede mejorar') {
+                    $("#encuesta").append('<div class="row pb-3">\n\
+                    <input readonly="" class="col-1 text-center" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input readonly="" class="col-3" type="text" value="' + datos['encuesta1'][d].pregunta + '">\n\
+                    <textarea readonly="" class="col-8">' + datos['encuesta1'][d].valor + '"</textarea>\n\
                     </div>');
+                    } else{
+                    $("#encuesta").append('<div class="row pb-1">\n\
+                    <input readonly="" class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input readonly="" class="col-10" type="text" value="' + opcional + '">\n\
+                    <input readonly="" class="col-1 text-center" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
+                    </div>');
+                    }
                     }
                     }
             });
@@ -90,11 +106,19 @@
                     } else{
                     var opcional = datos['encuesta1'][d].pregunta;
                     }
-                    $("#encuesta").append('<div class="row">\n\
-                    <input class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
-                    <input class="col-8" type="text" value="' + opcional + '">\n\
-                    <input class="col-3" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
+                    if (datos['encuesta1'][d].pregunta === 'Lo que se ha hecho bien' || datos['encuesta1'][d].pregunta === 'Lo que se puede mejorar') {
+                    $("#encuesta").append('<div class="row pb-3">\n\
+                    <input readonly="" class="col-1 text-center" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input readonly="" class="col-3" type="text" value="' + datos['encuesta1'][d].pregunta + '">\n\
+                    <textarea readonly="" class="col-8">' + datos['encuesta1'][d].valor + '"</textarea>\n\
                     </div>');
+                    } else{
+                    $("#encuesta").append('<div class="row pb-1">\n\
+                    <input readonly="" class="col-1" type="text" value="' + datos['encuesta1'][d].orden + '">\n\
+                    <input readonly="" class="col-10" type="text" value="' + opcional + '">\n\
+                    <input readonly="" class="col-1 text-center" type="text" value="' + datos['encuesta1'][d].valor + '">\n\
+                    </div>');
+                    }
                     }
                     }
             });
@@ -102,23 +126,38 @@
             });
         </script>
     </head>
-    <body class="container">
-        <div class="row">
-            <table class="col-12 table text-center" style="background-color: #c4cccf">
+    <body class="container-fluid">
+        @include('header')
+         <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Login</a></li>
+                <li class="breadcrumb-item"><a href="atras">Menu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Encuestas</li>
+            </ol>
+        </nav>
+        <div class="row pt-5">
+            <div class="col-2"></div>
+            <table class="col-8 table text-center" style="background-color: #c4cccf">
                 <?php
-                echo('<tr><th>Curso</th><th>Grupo</th><th>Materia</th></tr>');
-                echo('<tr><td>' . $grupo[0]->curso . '</td><td>' . $grupo[0]->grupo . '</td><td id="modulo">' . $materia . '</td></tr>');
-                echo('<tr><th>Profesor/a</th><td>' . $grupo[0]->nombre . '</td><th>Fecha</th><td>' . date("d") . "/" . date("m") . "/" . date("Y") . '</td></tr>');
+                echo('<tr><th>Curso</th><th>Grupo</th><th>Materia</th><th>Profesor</th><th>Fecha</th></tr>');
+                echo('<tr><td>' . $grupo[0]->curso . '</td><td>' . $grupo[0]->grupo . '</td><td id="modulo">' . $materia . '</td><td>' . $grupo[0]->nombre . '</td><td>' . date("d") . "/" . date("m") . "/" . date("Y") . '</td></tr>');
                 ?>
             </table>
-            <div class="row">
-                <div id="encuesta"class="col-12">
-                </div>
-                <div class="row">
-                    <div id="anterior" class="col-6"></div>
-                    <div id="siguiente" class="col-6"></div>
-                </div>
-            </div>
+            <div class="col-2"></div>
         </div>
+        <div class="row pt-3">
+            <div class="col-2"></div>
+            <div id="encuesta"class="col-8">
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row pt-3 text-center">
+            <div class="col-5"></div>
+            <div id="anterior" class="col-1 text-center"></div>
+            <div id="siguiente" class="col-1 text-center"></div>
+            <div class="col-5"></div>
+        </div>
+        <div class="row p-5"></div>
+        @include('footer')
     </body>
 </html>

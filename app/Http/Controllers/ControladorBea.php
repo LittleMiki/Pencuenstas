@@ -134,4 +134,20 @@ class ControladorBea extends Controller {
         echo json_encode($datos);
     }
 
+    function atras() {
+        $tutor = false;
+        $nombre = \DB::select('SELECT profesor.nombre FROM profesor WHERE usuario="' . \Session::get('usuario') . '"');
+        $tutor = \DB::select('SELECT curso.id FROM curso,profesor WHERE profesor.usuario="' . \Session::get('usuario') . '" AND profesor.usuario= curso.tutor');
+        if (!empty($tutor)) {
+            $tutor = true;
+        }
+        $datos = [
+            'usuario' => \Session::get('usuario'),
+            'nombre' => $nombre[0]->nombre,
+            'tipo' => 'profesor',
+            'tutor' => $tutor
+        ];
+        return view('Eleccion', $datos);
+    }
+
 }

@@ -89,17 +89,17 @@
                             </div>\n\
                             <div class='col-lg-1'></div>\n\
                         </div>\n\
-                        <div class='row text-center' id='encuesta' ></div>\n\
+                        <div class='row text-center'><div id='encuesta' class='col-lg-12'></div></div>\n\
                         <div class='row pt-4 pb-4 text-center' id='enviar'></div>\n\
                     </div>");
                     for (var p in datos.preguntas) {
                     if (datos.preguntas[p].orden === 4 || datos.preguntas[p].orden === 5 || datos.preguntas[p].orden === 6) {
                     if (datos.preguntas[p].orden == 4) {
                     $("#encuesta").append("\
+                    <div class='row pb-1'>\n\
                     <div class='col-lg-1'></div>\n\
-                    <div class='col-lg-9 p-1 mb-2'><input name='p" + p + "' type='text' readonly value='Pregunta adicional:Formula la pregunta que introducirias para mejorar este cuestionario(valórala posteriormente).'>\n\
-                    <input type='text' name='opcional' value=''></div>\n\
-                    <select class='col-lg-1 mb-2' name='respuestas[]'>\n\
+                    <input class='col-lg-9 mb-2' type='text' name='opcional' placeholder='Pregunta adicional: Formula la pregunta que introducirias para mejorar este cuestionario(valórala posteriormente).' value=''>\n\
+                    <select class='col-lg-1 mb-2 text-center' name='respuestas[]'>\n\
                         <option></option>\n\
                         <option>1</option>\n\
                         <option>2</option>\n\
@@ -107,17 +107,25 @@
                         <option>4</option>\n\
                         <option>5</option>\n\
                     </select>\n\
-                    <div class='col-lg-1'></div>");
+                    <div class='col-lg-1'></div></div>");
                     }
                     if (datos.preguntas[p].orden === 5 || datos.preguntas[p].orden === 6){
-                    $("#encuesta").append("<input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
-                        <textarea name='respuestas[]'></textarea>");
+//                    $("#encuesta").append("\
+//<input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
+//                        <textarea name='respuestas[]'></textarea>");
+                  $("#encuesta").append("<div class='row pb-2'>\n\
+                        <div class='col-lg-1'></div>\n\
+                        <input readonly='' class='col-lg-2 text-center' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
+                        <textarea class='col-lg-8' name='respuestas[]'></textarea>\n\
+                        <div class='col-lg-1'></div>\n\
+                    </div>");
                     }
                     } else{
                     $("#encuesta").append("\
+                    <div class='row'>\n\
                     <div class='col-lg-1'></div>\n\
                     <input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='40' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
-                    <select class='col-lg-1 mb-2' name='respuestas[]'>\n\
+                    <select class='col-lg-1 mb-2 text-center' name='respuestas[]'>\n\
                         <option></option>\n\
                         <option>1</option>\n\
                         <option>2</option>\n\
@@ -125,7 +133,7 @@
                         <option>4</option>\n\
                         <option>5</option>\n\
                     </select>\n\
-                    <div class='col-lg-1'></div>");
+                    <div class='col-lg-1'></div></div>");
                     }
                     }
                     $("#enviar").append("<div class='col-lg-5'></div><input class='col-lg-2 text-center' type='submit' name='enviar' value='Enviar'><div class='col-lg-5'></div>");
@@ -133,7 +141,6 @@
             });
             });
 ////////////////////////////////////////////////////////////////////////////////
-
             });
 
         </script>
@@ -142,8 +149,8 @@
     <body class="container-fluid">
         @include('header')
         <div class="row text-center">
-            <div  class="col-3"></div>
-            <div class="col-6 pt-5">
+            <div  class="col-4"></div>
+            <div class="col-4 pt-5">
                 <div class="row">
                     <table class="table col-12 text-center" style="background-color: #eff0f1">
                         <?php
@@ -154,11 +161,12 @@
                     </table>
                 </div>
             </div>    
-            <div  class="col-3"></div>
+            <div  class="col-4"></div>
         </div>
         <form class="row pt-5 pb-5" id='formulario' name='form' action='respuestas' method='POST'>
             {!! csrf_field(); !!}
         </form>
+        <div class="row p-5"></div>
         @include('footer')
         <!--------------------------------------------------------------------->
     </body>

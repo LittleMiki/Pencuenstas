@@ -188,9 +188,7 @@
                                     <tr>
                                         <th></th>
                                         <td>
-                                            <div class='col-5'></div>
-                                            <input type="submit" name="boton" class='btn btn-dark col-6 text-center' value="Generar Usuarios">
-                                            <div class='col-4'></div>
+                                            <input type="submit" name="boton" class='btn btn-dark text-center' value="Generar Usuarios">     
                                         </td>
                                     </tr>
                                 </table>
