@@ -74,13 +74,23 @@ Route::post('ACDirector',function(){
         return view('PantallaModificar',$info);
     }
     
-    if ($_REQUEST['boton'] == 'Generar Usuarios'){
+    if ($_REQUEST['boton'] == 'Asignar Tutor'){
         
-        //return 'ControladorMiguel@Gusuarios';
+       return view('AsignarTutor');
+    }
+    if ($_REQUEST['boton'] == 'Asignar Profesores'){
+        
+       return view('AsignarProfesor');
+    }
+    if ($_REQUEST['boton'] == 'Cerrar Sesion'){
+       \Session::flush();
+       return view('index');
     }
     //return view('NuevoRegistro',$info);
 });
 Route::post('RegistroProfesor','ControladorMiguel@NuevoProfesor');
+Route::post('Tutor','ControladorMiguel@Tutor');
+Route::post('ProfeModulo','ControladorMiguel@ProfeModulo');
 Route::post('RegistroCurso','ControladorMiguel@NuevoCurso');
 Route::post('RegistroModulo','ControladorMiguel@NuevoModulo');
 Route::post('BorrarCurso','ControladorMiguel@BorrarCurso');
@@ -89,6 +99,8 @@ Route::post('BorrarModulo','ControladorMiguel@BorrarModulo');
 Route::post('PeticionModulos','ControladorMiguel@PeticionModulo');
 Route::post('PeticionProfes','ControladorMiguel@PeticionProfe');
 Route::post('PeticionCursos','ControladorMiguel@PeticionCurso');
+Route::post('PeticionTutor','ControladorMiguel@PeticionTutor');
+Route::post('PModulo','ControladorMiguel@PModulo');
 Route::post('OtrosProfes','ControladorMiguel@OP');
 Route::post('ModificarModulo','ControladorMiguel@ModificarModulo');
 Route::post('ModificarCurso','ControladorMiguel@ModificarCurso');

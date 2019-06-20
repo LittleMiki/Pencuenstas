@@ -221,11 +221,22 @@
                             <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Modificar Modulo">
                             <input type="submit" name="boton" class='btn btn-dark  col-3' value="Modificar Curso">
                         </div>
+                        <div class='row ml-4 pb-3'>
+                            <div class='row m-3'><div class='col-12'></div></div>
+                              <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Asignar Tutor">
+                              <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Asignar Profesores">
+                        </div>
+                        <div class='row'>
+                            <div class='col-4'></div>
+                            <input type="submit" name="boton" class='btn btn-danger mt-1 col-4 text-center' value="Cerrar Sesion">
+                            <div class='col-4'></div>
+                        </div>
                         <div class='row'>
                             <div class='col-4'></div>
                             <input type="submit" name="boton" class='btn btn-danger col-4 text-center' value="volver">
                             <div class='col-4'></div>
                         </div>
+                        
                     </div>
                     <div class="col-3"></div>
                 </div>
