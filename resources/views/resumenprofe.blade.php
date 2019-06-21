@@ -8,19 +8,13 @@
         <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script> 
         <script src="{{asset('js/bootstrap.js')}}" type="text/javascript"></script>
         <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     </head>
     <body class="container-fluid">
         @include('header')
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Login</a></li>
-                <li class="breadcrumb-item"><a href="atras">Menu</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Resumen Profesor</li>
-            </ol>
-        </nav>
         <div class="row pt-5">
             <div class="col-3"></div>
-            <table class="col-6 table text-center" style="background-color: #c4cccf">
+            <table class="col-6 table text-center border border-bottom border-left border-right border-top" style="background-color: #c4cccf">
                 <?php
                 echo ('<tr><th>Grupo</th><td>' . $grupo[0]->curso . " " . $grupo[0]->grupo . " " . $grupo[0]->descripcion . '</td></tr>');
                 echo('<tr><th>Asignatura</th><td>' . $materia . '</td></tr>');
@@ -37,8 +31,8 @@
             ?>
             <div class="row pt-2">
                 <div class="col-1"></div>
-                <table class="col-10 table table-primary table-bordered table-hover table-condensed text-center"><!--style="background-color: #c4cccf"-->
-                    <thead>
+                <table class="col-10 table table-primary table-hover table-condensed text-center">
+                    <thead style="background-color:#34b3c8">
                         <tr>
                             <th>Encuesta/Pregunta</th>
                             <?php
@@ -74,17 +68,16 @@
                             }
                         }
                         ?>
-                    </tbody>
-                    <tfoot>
-                        <tr><th>Media</th>
+
+                        <tr style="background-color:#34b3c8;"><th>Media</th>
                             <?php
                             foreach ($mediaPreguntas as $m) {
                                 echo('<td>' . $m . '</td>');
                             }
-                            echo('<td>' . $mediaEncuesta[$i] . '</td>');
+                            echo('<td><b>' . $mediaEncuesta[$i] . '</b></td>');
                             ?>
                         </tr>
-                    </tfoot>
+                    </tbody>
                 </table>
                 <div class="col-1"></div>
             </div>

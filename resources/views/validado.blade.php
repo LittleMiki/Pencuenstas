@@ -8,6 +8,7 @@
         <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script> 
         <script src="{{asset('js/bootstrap.js')}}" type="text/javascript"></script>
         <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <script type = "text/javascript">
 
 
@@ -55,28 +56,29 @@
 
             //Autor: Beatriz//
             $("#materias").change(function () {
-            var modulo = $("#materias").val();
+            var modulo = $("#materias").val();//guardamos el modulo seleccionado
             $.ajax({
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
                     url: 'mostrarEncuesta',
-                    data: {'modulo': modulo},
+                    data: {'modulo': modulo},//pasamos el valor del modulo al controlador
                     type: 'POST',
                     success: function (respuesta) {
-                    var f = new Date();
+                    var f = new Date(); //creamos una variable con la fecha actual
                     var datos = JSON.parse(respuesta);
-                    $("#formulario div").remove();
+                    $("#formulario div").remove();//borramos si existe una encuesta ya pintada
+                    
+                    //pintamos la parte del nombre del profesor, la fecha y la informacion a seguir para realizar la encuesta
                     $("#formulario").append("\
                     <div class='col-lg-12'>\n\
                         <div class='row text-center pb-3'>\n\
-                            <div class='col-lg-1'></div>\n\
-                            <label class='col-lg-1 mt-1'>Profesor/a</label>\n\
-                            <input class='col-lg-5' readonly type='text' name='nombre' value='" + datos.nombre[0].nombre + "'/>\n\
-                            <div class='col-lg-1'></div>\n\
-                            <label class='col-lg-1 mt-1'>Fecha</label>\n\
-                            <input class='col-lg-2' id='fecha' type='datetime' value='" + f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear() + "'>\n\
-                            <div class='col-lg-1'></div>\n\
+                            <div class='col-lg-2'></div>\n\
+                            <label class='col-lg-1'>Profesor/a</label>\n\
+                            <input class='col-lg-4' readonly type='text' name='nombre' value='" + datos.nombre[0].nombre + "'/>\n\
+                            <label class='col-lg-1 ml-1'>Fecha</label>\n\
+                            <input class='col-lg-2'id='fecha' readonly type='datetime' value='" + f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear() + "'>\n\
+                            <div class='col-lg-2'></div>\n\
                         </div>\n\
                         <div class='row pt-3'>\n\
                             <div class='col-lg-1'></div>\n\
@@ -90,16 +92,20 @@
                             <div class='col-lg-1'></div>\n\
                         </div>\n\
                         <div class='row text-center'><div id='encuesta' class='col-lg-12'></div></div>\n\
-                        <div class='row pt-4 pb-4 text-center' id='enviar'></div>\n\
+                        <div class='row pt-4 text-center' id='enviar'></div>\n\
                     </div>");
+                      
+                      //recorremos el vector con las preguntas y las pintamos
                     for (var p in datos.preguntas) {
+                        
+                        //vamos pintando segun cual sea la pregunta, dado que las preguntas,4,5 y 6 seran diferentes
                     if (datos.preguntas[p].orden === 4 || datos.preguntas[p].orden === 5 || datos.preguntas[p].orden === 6) {
                     if (datos.preguntas[p].orden == 4) {
                     $("#encuesta").append("\
-                    <div class='row pb-1'>\n\
+                    <div class='row pb-1 ml-1 mr-1'>\n\
                     <div class='col-lg-1'></div>\n\
-                    <input class='col-lg-9 mb-2' type='text' name='opcional' placeholder='Pregunta adicional: Formula la pregunta que introducirias para mejorar este cuestionario(valórala posteriormente).' value=''>\n\
-                    <select class='col-lg-1 mb-2 text-center' name='respuestas[]'>\n\
+                    <input class='col-lg-9 mb-2 bg-light' type='text' name='opcional' placeholder='Pregunta adicional: Formula la pregunta que introducirias para mejorar este cuestionario(valórala posteriormente).' value=''>\n\
+                    <select class='col-lg-1 mb-2 text-center bg-light' name='respuestas[]'>\n\
                         <option></option>\n\
                         <option>1</option>\n\
                         <option>2</option>\n\
@@ -110,22 +116,20 @@
                     <div class='col-lg-1'></div></div>");
                     }
                     if (datos.preguntas[p].orden === 5 || datos.preguntas[p].orden === 6){
-//                    $("#encuesta").append("\
-//<input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
-//                        <textarea name='respuestas[]'></textarea>");
-                  $("#encuesta").append("<div class='row pb-2'>\n\
+                  $("#encuesta").append("<div class='row pb-2 ml-1 mr-1'>\n\
                         <div class='col-lg-1'></div>\n\
                         <input readonly='' class='col-lg-2 text-center' name='p" + p + "' type='text' size='20' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
-                        <textarea class='col-lg-8' name='respuestas[]'></textarea>\n\
+                        <textarea class='col-lg-8 bg-light' name='respuestas[]'></textarea>\n\
                         <div class='col-lg-1'></div>\n\
                     </div>");
                     }
+                   
                     } else{
                     $("#encuesta").append("\
-                    <div class='row'>\n\
+                    <div class='row ml-1 mr-1'>\n\
                     <div class='col-lg-1'></div>\n\
                     <input class='col-lg-9 p-1 mb-2' name='p" + p + "' type='text' size='40' readonly value='" + datos.preguntas[p].pregunta + "'>\n\
-                    <select class='col-lg-1 mb-2 text-center' name='respuestas[]'>\n\
+                    <select class='col-lg-1 mb-2 text-center bg-light' name='respuestas[]'>\n\
                         <option></option>\n\
                         <option>1</option>\n\
                         <option>2</option>\n\
@@ -136,7 +140,7 @@
                     <div class='col-lg-1'></div></div>");
                     }
                     }
-                    $("#enviar").append("<div class='col-lg-5'></div><input class='col-lg-2 text-center' type='submit' name='enviar' value='Enviar'><div class='col-lg-5'></div>");
+                    $("#enviar").append("<div class='col-lg-5'></div><input class='col-lg-2 text-center btn btn-dark' type='submit' name='enviar' value='Enviar'><div class='col-lg-5'></div>");
                     }
             });
             });
@@ -152,7 +156,7 @@
             <div  class="col-4"></div>
             <div class="col-4 pt-5">
                 <div class="row">
-                    <table class="table col-12 text-center" style="background-color: #eff0f1">
+                    <table class="table col-12 text-center border border-bottom border-left border-right border-top" style="background-color: #c4cccf">
                         <?php
                         echo ('<tr><th>Curso</th><td>' . $curso . '</td></tr>');
                         echo('<tr><th>Grupo</th><td>' . $grupo . '</td></tr>');

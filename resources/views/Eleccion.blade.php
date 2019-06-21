@@ -59,26 +59,32 @@
                         <div  class="col-3"></div>
                         <div class="col-6 pt-5">
                             <div class="row">
-                                <table class="table col-12" style="background-color: #eff0f1">
+                                <table class="table col-12 border border-bottom border-left border-right border-top" style="background-color: #c4cccf;">
                                     <?php
                                     echo ('<tr><th>Alumno</th> <td>' . $nombre . '</td></tr>');
                                     echo ('<tr><th>Curso</th> <td>' . $curso . '</td></tr>');
                                     echo ('<tr><th>Grupo</th> <td>' . $grupo . '</td></tr>');
                                     ?>
                                 </table>
-                            </div>    
-                            <form name="form" action="Hencuesta" method="POST">
-                                {!! csrf_field(); !!} 
-                                <div class="form-group row">
-                                    <input type="submit" class="btn btn-dark col-12" name="boton" value="Realizar Encuesta">
-                                </div>
-                            </form>
-                            <!--                    <form name="form" action="volver" method="POST">
-                                                    {!! csrf_field(); !!}
-                                                    <div class="form-group row">
-                                                        <input type="submit" class="btn btn-dark col-12" name="boton" value="volver">
-                                                    </div>
-                                                </form>-->
+                            </div> 
+                            <div class="cajaSombra p-5">
+                                <form name="form" action="Hencuesta" method="POST">
+                                    {!! csrf_field(); !!} 
+                                    <div class="row pb-3 text-center">
+                                        <div class="col-2"></div>
+                                        <input type="submit" class="btn btn-dark col-8" name="boton" value="Realizar Encuesta">
+                                        <div class="col-2"></div>
+                                    </div>
+                                </form>
+                                <form name="form" action="cerrar">
+                                    {!! csrf_field(); !!}
+                                    <div class="row text-center">
+                                        <div class="col-3"></div>
+                                        <input type="submit" class="btn btn-danger col-6" name="boton" value="Cerrar Sesión">
+                                        <div class="col-3"></div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <div  class="col-3"></div>
                     </div>
@@ -98,7 +104,7 @@
                     <div class="col-4">
                         <div class="row">
                             <div class="col-12">
-                                <table class="table" style="background-color: #c4cccf" >
+                                <table class="table border border-bottom border-left border-right border-top" style="background-color: #c4cccf" >
                                     <tr>
                                         <th>Profesor</th>
                                         <td>  <?php echo $nombre ?></td>
@@ -137,14 +143,9 @@
                             . '<div class="col-2"></div></div>';
                         }
                         ?> 
-                        <div class='row pb-4'>
-                            <div class='col-2'></div>
-                            <input type="submit" name="boton" class='btn btn-dark col-8 text-center' value="Generar Usuarios">
-                            <div class='col-2'></div>
-                        </div>
                         <div class='row'>
                             <div class='col-4'></div>
-                            <input type="submit" name="boton" class='btn btn-danger col-4 text-center' value="volver">
+                            <input type="submit" name="boton" class='btn btn-danger col-4 text-center' value="Cerrar Sesion">
                             <div class='col-4'></div>
                         </div>
                     </div>
@@ -159,14 +160,14 @@
         if ($tipo == 'Director') {
             ?>
             @include('header')
-                <form name="form" action="GUsuarios"  method="POST">
+            <form name="form" action="GUsuarios"  method="POST">
                 {!! csrf_field(); !!}
                 <div class="row pt-5">
                     <div class="col-4"></div>
                     <div class="col-4">
                         <div class="row">
                             <div class="col-12">
-                                <table class="table" style="background-color: #c4cccf" >
+                                <table class="table border border-bottom border-left border-right border-top" style="background-color: #c4cccf" >
                                     <tr>
                                         <th>Director/ra</th>
                                         <td>  <?php echo $nombre ?></td>
@@ -197,9 +198,9 @@
                         <div class="col-4"></div>
                     </div>
                 </div>
-                </form>
-              <form name="form" action="ACDirector"  method="POST">  
-                  {!! csrf_field(); !!}
+            </form>
+            <form name="form" action="ACDirector"  method="POST">  
+                {!! csrf_field(); !!}
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="col-6 cajaSombra pt-5 pb-5 pl-3 pl-3">
@@ -221,22 +222,22 @@
                             <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Modificar Modulo">
                             <input type="submit" name="boton" class='btn btn-dark  col-3' value="Modificar Curso">
                         </div>
-                        <div class='row ml-4 pb-3'>
-                            <div class='row m-3'><div class='col-12'></div></div>
-                              <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Asignar Tutor">
-                              <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Asignar Profesores">
+                        <div class='row ml-5 pb-3'>
+                            <div class='row m-3 pl-5'><div class='col-12'></div></div>
+                            <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Asignar Tutor">
+                            <input type="submit" name="boton" class='btn btn-dark  col-3 mr-1 pl-1' value="Asignar Profesores">
                         </div>
-                        <div class='row'>
+                        <div class='row pb-2'>
                             <div class='col-4'></div>
                             <input type="submit" name="boton" class='btn btn-danger mt-1 col-4 text-center' value="Cerrar Sesion">
                             <div class='col-4'></div>
                         </div>
                         <div class='row'>
-                            <div class='col-4'></div>
-                            <input type="submit" name="boton" class='btn btn-danger col-4 text-center' value="volver">
-                            <div class='col-4'></div>
+                            <div class='col-5'></div>
+                            <input type="submit" name="boton" class='btn btn-danger col-2 text-center' value="volver">
+                            <div class='col-5'></div>
                         </div>
-                        
+
                     </div>
                     <div class="col-3"></div>
                 </div>

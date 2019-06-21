@@ -13,135 +13,136 @@
     </head>
     <body class="content-fluid">
         @include('header')
-        
+
         <div class="row pt-5 pb-5">
-            
+
             <div class="col-4"></div>
-            
+
             <div class="col-4 cajaSombra p-5" id="almacen">
-               <form name="form" class="row" action="ProfeModulo" method="POST">
-                <div class="row pb-2">
-                    <div class="col-2"></div>
-                    <select class="col-8" name="selec" id="seleccion"><option disabled="disabled" selected="true">Seleccione una Opcion</option></select>
-                    <div class="col-2"></div>
-                </div>
-                   
-                    <script type = "text/javascript">
-                        $(function () {
-                         
-                        $().ready(function () {
-                        
-                        $.ajax({
-                        headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                                url: 'AjaxModulos',
-                                type: 'POST',
-                                success: function (response) {
-                                
+                <form name="form" class="row" action="ProfeModulo" method="POST">
+                    <div class="col-12">
+                        <div class="row pb-2 pl-1"> 
+                            <h6 class="col-12 text-center">Nuevo Profesor</h6>
+                        </div>
+                        <div class="row pb-3 pl-3 text-center">
+                            <div class="col-2"></div>
+                            <select class="col-8" name="selec" id="seleccion"><option disabled="disabled" selected="true">Seleccione una Opcion</option></select>
+                            <div class="col-2"></div>
+                        </div>
+                        <script type = "text/javascript">
+                            $(function () {
 
-                                var conjunto;
-                                var datos = JSON.parse(response);
-                                for (x in datos) {
-                                conjunto = conjunto + '<option>' + datos[x].descripcion + ' </option>';
-                                }
-                                $("#seleccion").append(conjunto);
-                                },
-                                statusCode: {
-                                404: function () {
-                                alert('web not found');
-                                }
-                                },
-                                error: function (x, xs, xt) {
+                            $().ready(function () {
 
-                                window.open(JSON.stringify(x));
-                                //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-                                }
-                        });
-                        
-                        $.ajax({
-                        headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                                url: 'AjaxProfes',
-                                type: 'POST',
-                                success: function (response) {
-                                
-                                var conjunto;
-                                var datos = JSON.parse(response);
-                                for (x in datos) {
-                                conjunto = conjunto + '<option>' + datos[x].nombre + ' </option>';
-                                }
-                                $("#nuevoT").append(conjunto);
-                                },
-                                statusCode: {
-                                404: function () {
-                                alert('web not found');
-                                }
-                                },
-                                error: function (x, xs, xt) {
+                            $.ajax({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                                    url: 'AjaxModulos',
+                                    type: 'POST',
+                                    success: function (response) {
 
-                                window.open(JSON.stringify(x));
-                                //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-                                }
-                        });
-                        }).keyup();
-                        
-                        });
-                        
-                        $("#seleccion").change(function(){
 
-                        var parametros = {"nombre":$("#seleccion").val()};
-                        $.ajax({
-                        headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                                url: 'PModulo',
-                                type: 'POST',
-                                data: parametros,
-                                success: function (response) {
-                               
-                                var resultado = JSON.parse(response);
-                                $("#profeActual").val(resultado[0].nombre);
-                                },
-                                statusCode: {
-                                404: function () {
-                                alert('web not found');
-                                }
-                                },
-                                error: function (x, xs, xt) {
+                                    var conjunto;
+                                    var datos = JSON.parse(response);
+                                    for (x in datos) {
+                                    conjunto = conjunto + '<option>' + datos[x].descripcion + ' </option>';
+                                    }
+                                    $("#seleccion").append(conjunto);
+                                    },
+                                    statusCode: {
+                                    404: function () {
+                                    alert('web not found');
+                                    }
+                                    },
+                                    error: function (x, xs, xt) {
 
-                                window.open(JSON.stringify(x));
-                                //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
-                                }
-                        });
-                        });
-                    </script> 
-                    
+                                    window.open(JSON.stringify(x));
+                                    //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+                                    }
+                            });
+                            $.ajax({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                                    url: 'AjaxProfes',
+                                    type: 'POST',
+                                    success: function (response) {
+
+                                    var conjunto;
+                                    var datos = JSON.parse(response);
+                                    for (x in datos) {
+                                    conjunto = conjunto + '<option>' + datos[x].nombre + ' </option>';
+                                    }
+                                    $("#nuevoT").append(conjunto);
+                                    },
+                                    statusCode: {
+                                    404: function () {
+                                    alert('web not found');
+                                    }
+                                    },
+                                    error: function (x, xs, xt) {
+
+                                    window.open(JSON.stringify(x));
+                                    //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+                                    }
+                            });
+                            }).keyup();
+                            });
+                            $("#seleccion").change(function(){
+
+                            var parametros = {"nombre":$("#seleccion").val()};
+                            $.ajax({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                                    url: 'PModulo',
+                                    type: 'POST',
+                                    data: parametros,
+                                    success: function (response) {
+
+                                    var resultado = JSON.parse(response);
+                                    $("#profeActual").val(resultado[0].nombre);
+                                    },
+                                    statusCode: {
+                                    404: function () {
+                                    alert('web not found');
+                                    }
+                                    },
+                                    error: function (x, xs, xt) {
+
+                                    window.open(JSON.stringify(x));
+                                    //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+                                    }
+                            });
+                            });
+                        </script> 
+
                         {!! csrf_field(); !!}
-                        <div class="col-12">
-                            <div class="row pb-4 ml-3">
-                                <div class="col-3"></div>
-                                <label>Profesor Actual</label>    <input type="text" name="profeActual" id="profeActual" value="">
-                                <div class="col-3"></div>
+                        <div class="row pb-4">
+                                
+                                <label class="col-5">Profesor Actual</label>
+                                <input class="col-7" type="text" name="profeActual" id="profeActual" value="">
+                        
                             </div>
-                            <div class="row pb-4 ml-3">
-                                <div class="col-3"></div>
-                                <label>Profesor Nuevo</label>    <select name="nuevoProfe" id="nuevoT"><option disabled="disabled" selected="true">Seleccione una Opcion</option></select>
-                                <div class="col-3"></div>
+                            <div class="row pb-4">
+                                
+                               <label class="col-5">Profesor Nuevo</label>
+                               <select class="col-7" name="nuevoProfe" id="nuevoT"><option disabled="disabled" selected="true">Seleccione una Opcion</option></select>
+      
                             </div>
-                            <div class="row pb-4 ml-3">
-                                <div class="col-3"></div>
-                                <input type="submit" name="aceptar" class= "col-6 btn btn-dark" value=" Guardar ">
-                                <div class="col-3"></div>
-                            </div>
-                            <div class="row ml-3">
+                            <div class="row pb-4 mr-3">
                                 <div class="col-4"></div>
+                                <input type="submit" name="aceptar" class= "col-6 btn btn-dark" value=" Guardar ">
+                                <div class="col-4"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 mr-3"></div>
                                 <input type="submit" name="aceptar" class= "col-4 btn btn-danger" value=" Cancelar ">
                                 <div class="col-4"></div>
                             </div>
                         </div>
-                    </form>
+                </form>
             </div>
             <div class="col-4"></div>
         </div>

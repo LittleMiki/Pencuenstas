@@ -8,7 +8,8 @@ class ControladorMixto extends Controller {
 
     function Gusuarios(Request $req) {
 //Autor: Miguel Angel//
-        if ($req->get('boton') == 'volver') {
+        if ($req->get('boton') == 'Cerrar Sesion') {
+            \Session::flush();
             return view('index');
         }
 

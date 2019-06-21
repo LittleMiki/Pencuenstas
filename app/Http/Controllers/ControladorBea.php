@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 class ControladorBea extends Controller {
 
     function Ajax() {
-        $modulo = $_POST['modulo'];
+        $modulo = $_POST['modulo'];//recogemos el valor del modulo
+        
+        //hacemos una consulta que nos devolvera el nombre del profesor y las preguntas de la encuesta
         $query = 'SELECT profesor.nombre FROM profesor,modulo,profesormodulo '
                 . 'WHERE modulo.descripcion="' . $modulo . '" '
                 . 'and modulo.id=profesormodulo.IdModulo '
@@ -16,7 +18,7 @@ class ControladorBea extends Controller {
 
         $nombre = \DB::select($query);
         $preguntas = \DB::select($query2);
-        $datos = array(
+        $datos = array(  //metemos en un array lo datos de la consulta
             "nombre" => $nombre,
             "preguntas" => $preguntas
         );
@@ -81,10 +83,17 @@ class ControladorBea extends Controller {
     }
 
     function encuestaPrim() {
-        $id_mo = $_POST['id_mo'];
+        $id_mo = $_POST['id_mo'];//recogemos el modulo
+        
+        //hacemos una consulta con todos los alumnos que han hecho encuesta de este modulo
         $alumnos = \DB::select('SELECT DISTINCT alumnomodulorespuesta.IdAlumno FROM alumnomodulorespuesta WHERE alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY alumnomodulorespuesta.IdAlumno');
+        
+        //hacemos una consulta la encuesta del primer alumno de la lista de alumnos anterior
         $encuesta1 = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $alumnos[0]->IdAlumno . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY pregunta.orden');
+        
+        //recogemos la pregunta opcional
         $opcional = \DB::select('SELECT respuesta.preg_opcional FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $alumnos[0]->IdAlumno . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" AND respuesta.preg_opcional is not null');
+        
         $datos = [
             'encuesta1' => $encuesta1,
             'listado' => $alumnos,
@@ -94,18 +103,25 @@ class ControladorBea extends Controller {
     }
 
     function encuestaSig() {
+        
+        //recogemos los datos de la encuesta que hay en ese momento
         $alumno = $_POST['alumno'];
         $id_mo = $_POST['id_mo'];
         $listado = $_POST['listado'];
 
-        $sig;
+        $sig;//creamos una variable para guardar el alumno de la encuesta que pintaremos
 
+        //recorremos el listado de alumnos con encuestas en el modulo
         for ($i = 0; $i < count($listado); $i++) {
             if ($listado[$i] === $alumno) {
+                //cuando encontremos el alumno de la encuesta que hay pintada
+                //guardaremos en sig el valor siguiente sumando 1
                 $sig = $listado[$i + 1];
             }
         }
+        //consulta de los datos de la encuesta del alumno siguiente
         $encuesta = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $sig . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY pregunta.orden');
+        //pregunta opcional del alumno siguiente
         $opcional = \DB::select('SELECT respuesta.preg_opcional FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $sig . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" AND respuesta.preg_opcional is not null');
         $datos = [
             'encuesta1' => $encuesta,
@@ -115,6 +131,7 @@ class ControladorBea extends Controller {
     }
 
     function encuestaAnt() {
+        //igual que en el metodo de siguiente:
         $alumno = $_POST['alumno'];
         $id_mo = $_POST['id_mo'];
         $listado = $_POST['listado'];
@@ -122,10 +139,14 @@ class ControladorBea extends Controller {
 
         for ($i = 0; $i < count($listado); $i++) {
             if ($listado[$i] === $alumno) {
+                //buscamos el alumno de la encuesta pintada en el momento
+                //guardamos el alumno anterior restandole 1
                 $sig = $listado[$i - 1];
             }
         }
+        //valores de la encuesta del alumno anterior
         $encuesta = \DB::select('SELECT alumnomodulorespuesta.IdAlumno, pregunta.orden, pregunta.pregunta, respuesta.valor FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $sig . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" ORDER BY pregunta.orden');
+        //pregunta opcional del alumno anterior
         $opcional = \DB::select('SELECT respuesta.preg_opcional FROM alumnomodulorespuesta,pregunta,respuesta WHERE alumnomodulorespuesta.IdAlumno="' . $sig . '" AND alumnomodulorespuesta.IdRespuesta=respuesta.id AND pregunta.id=respuesta.IdPregunta AND alumnomodulorespuesta.IdModulo="' . $id_mo . '" AND respuesta.preg_opcional is not null');
         $datos = [
             'encuesta1' => $encuesta,

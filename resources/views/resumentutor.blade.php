@@ -12,16 +12,9 @@
     </head>
     <body class="container-fluid">
         @include('header')
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Login</a></li>
-                <li class="breadcrumb-item"><a href="atras">Menu</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Resumen Tutor</li>
-            </ol>
-        </nav>
         <div class="row pt-5">
             <div class="col-4"></div>
-            <table class="col-4 table text-center" style="background-color: #c4cccf">
+            <table class="col-4 table text-center border border-bottom border-left border-right border-top" style="background-color: #c4cccf">
                 <?php
                 echo ('<tr><th>Grupo</th><td>' . $grupo[0]->curso . " " . $grupo[0]->grupo . " " . $grupo[0]->descripcion . '</td></tr>');
                 echo('<tr><th>Tutor</th><td>' . $tutor . '</td></tr>');
@@ -32,16 +25,16 @@
         </div>
         <div class="row pt-2">
             <div class="col-2"></div>
-            <table class="col-8 table table-bordered table-hover table-condensed text-center" style="background-color: #c4cccf">
-                <thead><tr><th>MÓDULO</th><th>¿EXISTEN ENCUESTAS?</th><th>ENCUESTAS REALIZADAS</th><th>CON VALOR >= 3</th></tr></thead>
+            <table class="col-8 table table-primary table-hover table-condensed text-center">
+                <thead style="background-color:#34b3c8"><tr><th>MÓDULO</th><th>¿EXISTEN ENCUESTAS?</th><th>ENCUESTAS REALIZADAS</th><th>CON VALOR >= 3</th></tr></thead>
                 <tbody>
                     <?php
                     foreach ($tabla as $t) {
                         echo('<tr><td>' . $t{'modulo'} . '</td><td>' . $t{'hay'} . '</td><td>' . $t{'total'} . '</td><td>' . $t{'aprobadas'} . '</td></tr>');
                     }
-                    echo('<tr><td>TOTAL</td><td>' . $total{'total_modulos'} . '</td><td>' . $total{'total_realizadas'} . '</td><td>' . $total{'total_valor>=3'} . '</td></tr>');
-                    echo('<tr><td>CUMPLEN CRITERIO</td><td>' . $criterio . '</td><td></td><td></td></tr>');
-                    echo('<tr><td>% CUMPLIMIENTO</td><td>' . $cumplimiento{'%si'} . '%</td><td></td><td>' . $cumplimiento{'total'} . '%</td></tr>');
+                    echo('<tr style="background-color:#34b3c8"><td><b>TOTAL</b></td><td><b>' . $total{'total_modulos'} . '</b></td><td><b>' . $total{'total_realizadas'} . '</b></td><td><b>' . $total{'total_valor>=3'} . '</b></td></tr>');
+                    echo('<tr style="background-color:#34b3c8"><td><b>CUMPLEN CRITERIO</b></td><td><b>' . $criterio . '</b></td><td></td><td></td></tr>');
+                    echo('<tr style="background-color:#34b3c8"><td><b>% CUMPLIMIENTO</b></td><td><b>' . $cumplimiento{'%si'} . '%</b></td><td></td><td><b>' . $cumplimiento{'total'} . '%</b></td></tr>');
                     ?>
                 </tbody>
             </table>
