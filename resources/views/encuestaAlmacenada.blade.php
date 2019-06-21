@@ -17,8 +17,6 @@
                     $("#texto").append('Encuesta insertada, retrocede para realizar otra.');
                 });
             });
-
-
         </script>
     </head>
     <body>

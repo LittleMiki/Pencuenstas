@@ -8,71 +8,86 @@
         <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script> 
         <script src="{{asset('js/bootstrap.js')}}" type="text/javascript"></script>
         <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
-
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     </head>
-    <body class="container">
-        <div class="row">
-            <table class="col-12 table text-center" style="background-color: #c4cccf">
+    <body class="container-fluid">
+        @include('header')
+        <div class="row pt-5">
+            <div class="col-3"></div>
+            <table class="col-6 table text-center border border-bottom border-left border-right border-top" style="background-color: #c4cccf">
                 <?php
                 echo ('<tr><th>Grupo</th><td>' . $grupo[0]->curso . " " . $grupo[0]->grupo . " " . $grupo[0]->descripcion . '</td></tr>');
                 echo('<tr><th>Asignatura</th><td>' . $materia . '</td></tr>');
                 echo('<tr><th>Total Encuestados</th><td>' . $total_encuestas . '</td></tr>');
                 ?>
                 <tr><th>Fecha</th><td><?php echo date("d") . "/" . date("m") . "/" . date("Y"); ?></td></tr>
-
             </table>
+            <div class="col-3"></div>
         </div>
         <?php if ($total_encuestas === 0) { ?>
-            <p> no existen datos</p>
+            <p class="text-center">No existen datos</p>
             <?php
         } else {
             ?>
-            <div class="row">
-                <table class="col-11 table text-center" style="background-color: #c4cccf">
-                    <tr><th>Encuesta/Pregunta</th>
+            <div class="row pt-2">
+                <div class="col-1"></div>
+                <table class="col-10 table table-primary table-hover table-condensed text-center">
+                    <thead style="background-color:#34b3c8">
+                        <tr>
+                            <th>Encuesta/Pregunta</th>
+                            <?php
+                            foreach ($preguntas as $p) {
+                                echo('<th>' . $p->orden . '</th>');
+                            }
+                            ?>
+                            <th>Media</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
-                        foreach ($preguntas as $p) {
-                            echo('<th>' . $p->orden . '</th>');
-                        }
-                        ?>
-                    </tr>
-                    <?php
-                    foreach ($tabla as $t) {
-                        $e;
-                        if (empty($e)) {
-                            echo('<tr><td>' . $t->IdAlumno . '</td>');
-                            echo('<td>' . $t->valor . '</td>');
-                            $e = $t->IdAlumno;
-                        } else if ($t->IdAlumno !== $e || $t === end($tabla)) {
-                            if ($t === end($tabla)) {
-                                echo('<td>' . $t->valor . '</td>');
-                            } else {
+                        $i = 0;
+                        foreach ($tabla as $t) {
+                            $e;
+                            if (empty($e)) {
                                 echo('<tr><td>' . $t->IdAlumno . '</td>');
                                 echo('<td>' . $t->valor . '</td>');
                                 $e = $t->IdAlumno;
+                            } else if ($t->IdAlumno !== $e || $t === end($tabla)) {
+                                if ($t === end($tabla)) {
+                                    echo('<td>' . $t->valor . '</td>');
+                                    echo('<td>' . $mediaEncuesta[$i] . '</td>');
+                                } else {
+                                    echo('<td>' . $mediaEncuesta[$i] . '</td>');
+                                    echo('<tr><td>' . $t->IdAlumno . '</td>');
+                                    echo('<td>' . $t->valor . '</td>');
+                                    $e = $t->IdAlumno;
+                                }
+                                $i++;
+                            } else {
+                                echo('<td>' . $t->valor . '</td>');
                             }
-                        } else {
-                            echo('<td>' . $t->valor . '</td>');
-                        }
-                    }
-                    ?>
-                    <tr><th>Media</th>
-                        <?php
-                        foreach ($mediaPreguntas as $m) {
-                            echo('<td>' . $m . '</td>');
                         }
                         ?>
-                    </tr>
+
+                        <tr style="background-color:#34b3c8;"><th>Media</th>
+                            <?php
+                            foreach ($mediaPreguntas as $m) {
+                                echo('<td>' . $m . '</td>');
+                            }
+                            echo('<td><b>' . $mediaEncuesta[$i] . '</b></td>');
+                            ?>
+                        </tr>
+                    </tbody>
                 </table>
-                <table class="col-1 table text-center" style="background-color: #c4cccf">
-                    <tr><th>Media</th></tr>
-                    <?php
-                    foreach ($mediaEncuesta as $m) {
-                        echo('<tr><td>' . $m . '</td></tr>');
-                    }
-                    ?>
-                </table>
-            <?php } ?>
+                <div class="col-1"></div>
+            </div>
+        <?php } ?>
+        <div class="row">
+            <div class="col-4"></div>
+            <a class="col-4 text-center" href="atras"><input class="text-center btn btn-danger" type="button" value="Volver"></a>
+            <div class="col-4"></div>
         </div>
+        <div class="row p-5"></div>
+        @include('footer')
     </body>
 </html>
